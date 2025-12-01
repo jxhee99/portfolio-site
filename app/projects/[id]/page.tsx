@@ -13,6 +13,7 @@ type ProjectDetail = {
   image: string
   color: string
   duration: string
+  keyFeatures: string
   myRole: string
   myContributions: {
     title: string
@@ -61,6 +62,22 @@ const splitIntoParagraphs = (text: string) => {
   return parts.map((part) => part.trim()).filter(Boolean)
 }
 
+const splitTasks = (tasks: string) => {
+  return tasks
+    .split(/[,/]/)
+    .map((task) => task.trim())
+    .filter(Boolean)
+}
+
+const outcomeIcons = ["📈", "✨", "🎯", "⚡"]
+
+const getOutcomeIcon = (text: string, index: number) => {
+  if (text.includes("수상")) {
+    return "🏆"
+  }
+  return outcomeIcons[index % outcomeIcons.length]
+}
+
 const projectsData: ProjectDetail[] = [
   {
     id: "apilog",
@@ -72,6 +89,7 @@ const projectsData: ProjectDetail[] = [
     image: "/apilog-portlet.gif",
     color: "rgb(59, 130, 246)",
     duration: "2025.10.13 - 2025.11.20 (5주)",
+    keyFeatures: "AI 위젯 생성, AI 리포트, 포틀릿 기능, 기본 위젯 13종",
     myRole: "백엔드 / AI",
     myContributions: [
       {
@@ -177,6 +195,7 @@ const projectsData: ProjectDetail[] = [
     image: "/see_you_letter.png",
     color: "rgb(99, 102, 241)",
     duration: "2025.08.25 - 2025.09.29 (5주)",
+    keyFeatures: "워치 기반 음성 기록, AI 데일리 회고, 목소리 편지 생성, NFT 타임캡슐",
     myRole: "인프라 / AI / 디자인",
     myContributions: [
       {
@@ -276,7 +295,8 @@ const projectsData: ProjectDetail[] = [
     tags: ["Spring Boot", "JPA", "MySQL", "Redis", "MinIO", "Firebase FCM", "Jenkins", "Docker", "AWS EC2"],
     color: "rgb(139, 92, 246)",
     duration: "2025.07.14 - 2025.08.18 (5주)",
-    myRole: "팀장 / 백엔드 / 디자인인",
+    keyFeatures: "예매 일정 알림, JWT 인증, 이미지 최적화, FCM 푸시",
+    myRole: "팀장 / 백엔드 / 디자인",
     myContributions: [
       {
         title: "로그인 및 JWT 발급",
@@ -304,7 +324,7 @@ const projectsData: ProjectDetail[] = [
         title: "JWT 기반 보안 인증 시스템 구축",
         details: [
           "Access Token + Refresh Token 분리 발급 로직 설계",
-          "**Stateless 인증 환경** 구축으로 서버 세션 저장소 부하 감소",
+          "Stateless 인증 환경 구축으로 서버 세션 저장소 부하 감소",
           "토큰 탈취 위험 최소화",
         ],
       },
@@ -352,10 +372,15 @@ const projectsData: ProjectDetail[] = [
     learned:
       "Vue.js와 WebSocket을 활용한 실시간 애플리케이션 개발 방법을 배웠습니다. 또한 실시간 협업 기능의 복잡성과 알림 시스템의 중요성을 이해하게 되었습니다.",
     techStack: [
-      { name: "Vue.js", description: "UI 프레임워크" },
-      { name: "Express", description: "백엔드 서버" },
+      { name: "Spring Boot", description: "UI 프레임워크" },
+      { name: "JPA", description: "백엔드 서버" },
       { name: "MySQL", description: "데이터베이스" },
+      { name: "Redis", description: "컨테이너화" },
+      { name: "MinIO", description: "컨테이너화" },
+      { name: "Firebase FCM", description: "컨테이너화" },
+      { name: "Jenkins", description: "데이터베이스" },
       { name: "Docker", description: "컨테이너화" },
+      { name: "AWS EC2", description: "컨테이너화" },
     ],
     liveUrl: "#",
     githubUrl: "https://github.com/jxhee99/YMHN",
@@ -477,6 +502,17 @@ export default function ProjectDetailPage() {
               </svg>
               <span>{project.duration}</span>
             </div>
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2 text-foreground/90">
+              <div className="flex items-center gap-2 text-muted-foreground font-semibold">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M12 3l2.09 6.26H20l-5.17 3.76L16.18 19 12 15.77 7.82 19l1.35-6L4 9.26h5.91L12 3z" />
+                </svg>
+                <span>주요 기능</span>
+              </div>
+              <p className="text-sm font-medium text-foreground">
+                {project.keyFeatures}
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -499,11 +535,9 @@ export default function ProjectDetailPage() {
             {project.techStack.map((tech, i) => (
               <div
                 key={i}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-background border border-border hover:bg-muted transition-colors duration-300"
+                className="inline-flex items-center px-4 py-2 rounded-full bg-background border border-border hover:bg-muted transition-colors duration-300 text-sm font-medium"
               >
-                <span className="font-medium text-sm">{tech.name}</span>
-                <span className="text-xs text-muted-foreground">•</span>
-                <span className="text-xs text-muted-foreground">{tech.description}</span>
+                {tech.name}
               </div>
             ))}
           </div>
@@ -549,12 +583,23 @@ export default function ProjectDetailPage() {
             <h3 className="text-2xl font-bold mb-4">팀 내 역할 분담</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {project.teamStructure.map((team, i) => (
-                <div key={i} className="p-5 rounded-xl border border-border bg-muted/30">
-                  <div className="flex items-baseline gap-3 mb-3">
+                <div
+                  key={i}
+                  className="p-5 rounded-xl border border-border bg-muted/30 flex flex-col gap-3 h-full"
+                >
+                  <div className="flex items-baseline gap-3">
                     <h4 className="text-xl font-bold">{team.area}</h4>
                     <span className="text-sm text-muted-foreground">({team.members}명)</span>
                   </div>
-                  <p className="text-base leading-relaxed text-foreground/80">{team.tasks}</p>
+                  <div className="flex-1">
+                    <ul className="space-y-1 text-base text-foreground/80">
+                      {splitTasks(team.tasks).map((task, idx) => (
+                        <li key={idx} className="leading-relaxed">
+                          • {task}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               ))}
             </div>
@@ -718,23 +763,21 @@ export default function ProjectDetailPage() {
       <section className="px-4 md:px-6 mb-16">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-6">Outcomes</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-4">
             {project.outcomes.map((outcome, i) => (
-              <div key={i} className="p-4 rounded-lg border border-border bg-muted/30">
-                <div className="flex items-start gap-3">
-                  <div
-                    className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm border-2"
-                    style={{ borderColor: project.color, color: project.color }}
-                  >
-                    {i === 0 && "📈"}
-                    {i === 1 && "✨"}
-                    {i === 2 && "🎯"}
-                    {i === 3 && "⚡"}
-                  </div>
-                  <p className="text-sm leading-relaxed" style={{ lineHeight: "1.75" }}>
-                    {outcome}
-                  </p>
+              <div
+                key={i}
+                className="flex items-center gap-4 p-4 rounded-xl border border-border bg-muted/30 overflow-x-auto"
+              >
+                <div
+                  className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-base border-2"
+                  style={{ borderColor: project.color, color: project.color }}
+                >
+                  {getOutcomeIcon(outcome, i)}
                 </div>
+                <p className="text-base font-medium text-foreground whitespace-nowrap">
+                  {outcome}
+                </p>
               </div>
             ))}
           </div>

@@ -19,6 +19,10 @@ type ProjectDetail = {
     title: string
     percentage: number
     description: string
+    demoMedia?: {
+      src: string
+      alt: string
+    }
   }[]
   teamStructure: {
     area: string
@@ -99,16 +103,28 @@ const projectsData: ProjectDetail[] = [
         title: "AI 리포트 파이프라인 구축",
         percentage: 100,
         description: "FastAPI 라우터 스캔 → 응답 샘플 수집 → LLM 컨텍스트 전달 → 리포트 생성 파이프라인 설계",
+        demoMedia: {
+          src: "/widget-slide.gif",
+          alt: "AI 리포트 파이프라인 흐름",
+        },
       },
       {
         title: "로그 분석 위젯 개발",
         percentage: 35,
         description: "세션 기반 브라우저 통계, 페이지별 이탈률, 인기 페이지 순위 등 기본 위젯 구현",
+        demoMedia: {
+          src: "/widget-slide.gif",
+          alt: "로그 분석 위젯 시연",
+        },
       },
       {
         title: "AI 위젯 자동 생성 구현",
         percentage: 35,
         description: "자연어 입력 → DB 스키마 분석 → 쿼리/위젯 스펙 자동 생성 흐름 설계",
+        demoMedia: {
+          src: "/ai-widget-create.gif",
+          alt: "AI 위젯 자동 생성 시연",
+        },
       },
     ],
     teamStructure: [
@@ -403,7 +419,12 @@ export default function ProjectDetailPage() {
   const router = useRouter()
   const [project, setProject] = useState<ProjectDetail | null>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [expandedContribution, setExpandedContribution] = useState<string | null>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+
+  const toggleContribution = (title: string) => {
+    setExpandedContribution((prev) => (prev === title ? null : title))
+  }
 
   useEffect(() => {
     const foundProject = projectsData.find((p) => p.id === params.id)
@@ -625,12 +646,53 @@ export default function ProjectDetailPage() {
               {project.myContributions.map((contribution, index) => (
                 <div key={index}>
                   <div className="flex flex-col gap-3 mb-3">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <h4 className="text-xl font-bold">{contribution.title}</h4>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (contribution.demoMedia) {
+                          toggleContribution(contribution.title)
+                        }
+                      }}
+                      className={`flex flex-wrap items-center justify-between gap-3 w-full text-left ${
+                        contribution.demoMedia ? "cursor-pointer" : ""
+                      }`}
+                      aria-expanded={
+                        contribution.demoMedia
+                          ? expandedContribution === contribution.title
+                          : undefined
+                      }
+                    >
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h4 className="text-xl font-bold">{contribution.title}</h4>
+                        {contribution.demoMedia && (
+                          <span
+                            className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-semibold transition-colors ${
+                              expandedContribution === contribution.title
+                                ? "bg-primary text-primary-foreground border-primary"
+                                : "border-border text-foreground/80 bg-background"
+                            }`}
+                          >
+                            이미지 보기
+                            <svg
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              className={`transition-transform duration-300 ${
+                                expandedContribution === contribution.title ? "rotate-180" : ""
+                              }`}
+                            >
+                              <path d="M6 9l6 6 6-6" />
+                            </svg>
+                          </span>
+                        )}
+                      </div>
                       <span className="text-sm font-semibold text-primary flex-shrink-0">
                         ({contribution.percentage}%)
                       </span>
-                    </div>
+                    </button>
                     <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
                       <div
                         className="bg-primary h-full rounded-full transition-all duration-500"
@@ -640,6 +702,15 @@ export default function ProjectDetailPage() {
                   </div>
 
                   <p className="text-base text-foreground/80 leading-relaxed">{contribution.description}</p>
+                  {contribution.demoMedia && expandedContribution === contribution.title && (
+                      <div className="mt-4 rounded-xl border border-border bg-muted/30 overflow-hidden">
+                        <img
+                        src={contribution.demoMedia.src}
+                        alt={contribution.demoMedia.alt}
+                          className="w-full h-auto object-cover"
+                        />
+                      </div>
+                    )}
                 </div>
               ))}
             </div>

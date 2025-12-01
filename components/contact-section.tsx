@@ -117,9 +117,9 @@ export function ContactSection() {
   }
 
   const links = [
-    { name: "Email", href: "mailto:hello@example.com", icon: MailIcon, label: "hello@example.com" },
-    { name: "GitHub", href: "https://github.com", icon: GithubIcon, label: "github.com/username" },
-    { name: "LinkedIn", href: "https://linkedin.com", icon: LinkedinIcon, label: "linkedin.com/in/username" },
+    { name: "Email", href: "wngml2666@gmail.com", icon: MailIcon, label: "wngml2666@gmail.com" },
+    { name: "GitHub", href: "https://github.com/jxhee99", icon: GithubIcon, label: "github.com/jxhee99" },
+    { name: "Solved.ac", href: "https://solved.ac/profile/wngml2666", icon: LinkedinIcon, label: "solved.ac/profile/wngml2666" },
   ]
 
   return (

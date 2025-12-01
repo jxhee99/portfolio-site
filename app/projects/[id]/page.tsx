@@ -36,17 +36,20 @@ type ProjectDetail = {
   challengesAndSolutions: {
     title: string
     problem: string
-    analysis: string
+    analysis?: string
     solution: string
     result: string
   }[]
   outcomes: string[]
-  learned: string
+  learned: {
+    drawback: string
+    insight: string
+  }
   techStack: {
     name: string
     description: string
   }[]
-  liveUrl: string
+  liveUrl: string | null
   githubUrl: string
 }
 
@@ -103,7 +106,7 @@ const projectsData: ProjectDetail[] = [
         description: "세션 기반 브라우저 통계, 페이지별 이탈률, 인기 페이지 순위 등 기본 위젯 구현",
       },
       {
-        title: "AI 위젯 생성 구현",
+        title: "AI 위젯 자동 생성 구현",
         percentage: 35,
         description: "자연어 입력 → DB 스키마 분석 → 쿼리/위젯 스펙 자동 생성 흐름 설계",
       },
@@ -144,7 +147,7 @@ const projectsData: ProjectDetail[] = [
     ],
     challengesAndSolutions: [
       {
-        title: "내장 LLM(Ollama) JSON 파싱 길이 반환 문제",
+        title: "1. 내장 LLM(Ollama) JSON 파싱 길이 반환 문제",
         problem:
           "로컬 내장 LLM(Ollama)로 AI 리포트 생성 시도 → 양자화 모델에서 긴 JSON 응답이 중간에 잘림 → 응답 형식 불일치로 fallback 함수로 넘어가는 상황 발생",
         analysis:
@@ -155,7 +158,7 @@ const projectsData: ProjectDetail[] = [
            "고품질 자연어 응답과 긴 보고서 생성 시 잘림 현상 없이 안정적 반환 확인",
       },
       {
-        title: "AI 리포트 조회 타임아웃 및 CPU 과부하",
+        title: "2. AI 리포트 조회 타임아웃 및 CPU 과부하",
         problem:
           "리포트 생성 요청 시 3분 타임아웃 초과, CPU 100% 점유로 응답 실패 → fallback 로직으로 빠지며 정상 리포트 생성 불가",
         analysis:
@@ -172,8 +175,12 @@ const projectsData: ProjectDetail[] = [
       "InfluxDB 스키마 최적화로 타임아웃 및 CPU 과부하 문제 해결",
       "오픈소스 플러그인 아키텍처 설계로 프로젝트 확장성 확보",
     ],
-    learned:
-      "Next.js의 SSR과 SSG를 실무에서 적용하면서 각각의 장단점과 적절한 사용 사례를 깊이 이해하게 되었습니다. 특히 결제 시스템을 처음 통합하면서 보안과 에러 핸들링의 중요성을 배웠고, Webhook을 통한 비동기 이벤트 처리 패턴을 익힐 수 있었습니다. 또한 이미지 최적화가 사용자 경험에 미치는 영향이 크다는 것을 실제 데이터로 확인하며, 성능 최적화의 중요성을 체감했습니다.",
+    learned: {
+      drawback:
+        "내장 LLM을 고집하며 JSON 스키마를 맞추려다 보니 파이프라인 안정화에 과도한 시간이 들었고, 모델 한계 때문에 리포트 품질이 요동쳤습니다.",
+      insight:
+        "Next.js SSR/SSG를 프로젝트 전반에 적용하면서 배포 전략을 명확히 잡았고, 결제·웹훅·이미지 최적화 경험 덕분에 보안과 성능 최적화가 사용자 경험을 좌우한다는 사실을 체감했습니다.",
+    },
     techStack: [
       { name: "Python", description: "React 프레임워크" },
       { name: "FastAPI", description: "타입 안정성" },
@@ -253,24 +260,25 @@ const projectsData: ProjectDetail[] = [
     ],
     challengesAndSolutions: [
       {
-        title: "편지 생성 품질 저하 및 응답 속도 문제",
+        title: "1. 편지 생성 품질 저하 및 응답 속도 문제",
         problem: "모든 회고고 데이터를 LLM에 주입 → 기계적인 ‘일간 회고 총정리’ 수준의 편지 생성. 응답시간 44초 소요",
-        analysis: "서버와 클라이언트 간의 데이터 전송이 원활하지 않아 스트리밍 응답이 지연되거나 손실됨.",
         solution: "프롬프트 엔지니어링으로 LLM 역할 재정의(”진심이 담긴 편지를 작성하는 전문가”), 전체 회고 중 핵심 에피소드만 선택하여 편지 소재로 사용하고 나머지는 맥락 파악용으로 활용하도록 명시",
         result: "API 응답 시간 44초 → 15초(66% 개선), 에피소드 나열식 → 핵심 감정에 집중한 진정성 있는 편지로 품질 향상",
       },
       {
-        title: "음성 복제 품질 및 비용 문제",
+        title: "2. 음성 복제 품질 및 비용 문제",
         problem: "GPU 학습 방식은 사용자마다 모델 학습 필요 → 서비스 비용 과다, 학습 시간 30~1시간 소요, 유사도 기대 미달",
-        analysis:
-          "대화 히스토리를 메모리에 저장하면서 메모리 사용량이 증가했고, 여러 사용자 간의 컨텍스트 관리가 어려웠습니다.",
         solution: "Zero-Shot TTS 방식으로 전환, 여러 모델 테스트 후 한국어 억양과 톤이 가장 자연스러운 CosyVoice2 선택",
         result: " 대기 시간 30분 ~ 1시간 → 15초로  줄이고 10초~30초 샘플만으로 자연스러운 목소리 구현 → 즉각적인 서비스 제공 ",
       },
     ],
     outcomes: ["SSAFY 자율 프로젝트 우수상(2등) 수상 (2025.10)", "편지 생성 API 응답 속도 66% 개선 (44초 → 15초)", "음성 복제 대기 시간 99% 단축 (30분~1시간 → 15초)", "배포 시간 80% 단축 (15분 → 3분)"],
-    learned:
-      "WebSocket을 활용한 실시간 통신의 중요성과 OpenAI API의 스트리밍 응답을 활용한 사용자 경험 개선 방법을 배웠습니다. 또한 Redis를 활용한 데이터 캐싱 전략의 효과를 직접 경험하며 성능 최적화의 필요성을 깨달았습니다.",
+    learned: {
+      drawback:
+        "음성·텍스트 데이터를 단일 모델에 몰아넣어 편지 품질이 밋밋했고 응답 속도도 느렸습니다. 또한 음성 복제를 GPU 학습으로 접근해 비용과 시간이 크게 소모됐습니다.",
+      insight:
+        "LLM 역할을 분석/질문/편지 생성으로 분리하고 STT·TTS·Zero-shot TTS 파이프라인을 구성해 개인화 품질을 끌어올리는 법을 익혔습니다.",
+    },
     techStack: [
       { name: "Spring Boot", description: "프레임워크" },
       { name: "JPA", description: "AI 모델" },
@@ -282,7 +290,7 @@ const projectsData: ProjectDetail[] = [
       { name: "IPFS", description: "데이터 페칭" },
       { name: "Ethereum(NFT)", description: "데이터 페칭" },
     ],
-    liveUrl: "#",
+    liveUrl: null,
     githubUrl: "https://github.com/SeeY0uLetter/SeeYouLetter",
   },
   {
@@ -350,16 +358,15 @@ const projectsData: ProjectDetail[] = [
     ],
     challengesAndSolutions: [
       {
-        title: "JPA Fetch Join 페이지네이션 Count 쿼리 중복 계산 문제",
+        title: "1. JPA Fetch Join 페이지네이션 Count 쿼리 중복 계산 문제",
         problem: "선호 공연 목록 조회 시 실제 10개 데이터가 40개(4페이지)로 잘못 계산",
         analysis:"1:N 관계 컬렉션을 LEFT JOIN FETCH하면 부모 엔티티가 자식 수만큼 중복 조회 → JPA 자동 Count 쿼리가 중복 행을 모두 합산",
         solution: "데이터 조회와 개수 계산 로직 분리, 공연 ID만 카운팅하는 별도 쿼리 작성",
         result: "데이터 로딩 시 Fetch Join은 유지하면서 N+1 문제 해결하고 페이지네이션 정합성 확보",
       },
       {
-        title: "대용량 이미지 리소스 처리 성능 문제",
+        title: "2. 대용량 이미지 리소스 처리 성능 문제",
         problem: "공연 서비스 특성상 이미지가 많았고, 외부 URL 순차적 요청으로 평균 11초 네트워크 지연 발생, 사용자 이탈 유발 가능성",
-        analysis: "WebSocket을 활용한 실시간 데이터 전송 시 데이터 충돌 방지 로직이 부족했습니다.",
         solution: "MinIO 도입으로 이미지 서비스 책임 분리, 클라이언트에게 직접 전송하는 구조로 변경. 추가 최적화: JPG/GIF → WEBP 변환 + 120×160 리사이징으로 용량 95.6% 감소",
         result: "로딩 시간 11.4초 → 3.4초 (70% 개선)",
       },
@@ -369,8 +376,12 @@ const projectsData: ProjectDetail[] = [
       "이미지 렌더링 성능 70% 개선 (11.4초 → 3.4초)",
       "이미지 용량 90% 감소 (WEBP 변환 + 리사이징)",
     ],
-    learned:
-      "Vue.js와 WebSocket을 활용한 실시간 애플리케이션 개발 방법을 배웠습니다. 또한 실시간 협업 기능의 복잡성과 알림 시스템의 중요성을 이해하게 되었습니다.",
+    learned: {
+      drawback:
+        "이미지 최적화 전략을 초기에 설계하지 않아 외부 URL 지연과 대용량 리소스 문제로 사용자 대기 시간을 길게 만들었습니다.",
+      insight:
+        "JWT 인증, MinIO, Redis, FCM을 분리 아키텍처로 엮으면서 인증·미디어·알림 책임을 명확히 나눠야 확장성과 안정성을 확보할 수 있다는 점을 깨달았습니다.",
+    },
     techStack: [
       { name: "Spring Boot", description: "UI 프레임워크" },
       { name: "JPA", description: "백엔드 서버" },
@@ -382,7 +393,7 @@ const projectsData: ProjectDetail[] = [
       { name: "Docker", description: "컨테이너화" },
       { name: "AWS EC2", description: "컨테이너화" },
     ],
-    liveUrl: "#",
+    liveUrl: null,
     githubUrl: "https://github.com/jxhee99/YMHN",
   },
 ]
@@ -469,17 +480,19 @@ export default function ProjectDetailPage() {
           <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed mb-6">{project.description}</p>
 
           <div className="flex flex-wrap gap-4">
-            <a
-              href={project.liveUrl}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-foreground text-background font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg"
-            >
-              <span>Live Demo</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                <polyline points="15 3 21 3 21 9" />
-                <line x1="10" y1="14" x2="21" y2="3" />
-              </svg>
-            </a>
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-foreground text-background font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              >
+                <span>Live Demo</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+              </a>
+            )}
             <a
               href={project.githubUrl}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-border font-medium transition-all duration-300 hover:bg-muted"
@@ -714,44 +727,52 @@ export default function ProjectDetailPage() {
                 {/* Single Box with 4 sections */}
                 <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200 space-y-6">
                   {/* Problem */}
-                  <div className="space-y-2">
-                    <div className="inline-block px-4 py-1.5 rounded-md bg-red-100 text-red-700 text-sm font-semibold">
-                      Problem
+                  {item.problem && (
+                    <div className="space-y-2">
+                      <div className="inline-block px-4 py-1.5 rounded-md bg-red-100 text-red-700 text-sm font-semibold">
+                        Problem
+                      </div>
+                      <p className="text-base leading-relaxed text-gray-700 ml-2" style={{ lineHeight: "1.9" }}>
+                        {item.problem}
+                      </p>
                     </div>
-                    <p className="text-base leading-relaxed text-gray-700" style={{ lineHeight: "1.9" }}>
-                      {item.problem}
-                    </p>
-                  </div>
+                  )}
 
                   {/* Cause */}
-                  <div className="space-y-2">
-                    <div className="inline-block px-4 py-1.5 rounded-md bg-orange-100 text-orange-700 text-sm font-semibold">
-                      Cause
+                  {item.analysis && (
+                    <div className="space-y-2">
+                      <div className="inline-block px-4 py-1.5 rounded-md bg-orange-100 text-orange-700 text-sm font-semibold">
+                        Cause
+                      </div>
+                      <p className="text-base leading-relaxed text-gray-700 ml-2" style={{ lineHeight: "1.9" }}>
+                        {item.analysis}
+                      </p>
                     </div>
-                    <p className="text-base leading-relaxed text-gray-700" style={{ lineHeight: "1.9" }}>
-                      {item.analysis}
-                    </p>
-                  </div>
+                  )}
 
                   {/* Solution */}
-                  <div className="space-y-2">
-                    <div className="inline-block px-4 py-1.5 rounded-md bg-blue-100 text-blue-700 text-sm font-semibold">
-                      Solution
+                  {item.solution && (
+                    <div className="space-y-2">
+                      <div className="inline-block px-4 py-1.5 rounded-md bg-blue-100 text-blue-700 text-sm font-semibold">
+                        Solution
+                      </div>
+                      <p className="text-base leading-relaxed text-gray-700 ml-2" style={{ lineHeight: "1.9" }}>
+                        {item.solution}
+                      </p>
                     </div>
-                    <p className="text-base leading-relaxed text-gray-700" style={{ lineHeight: "1.9" }}>
-                      {item.solution}
-                    </p>
-                  </div>
+                  )}
 
                   {/* Result */}
-                  <div className="space-y-2">
-                    <div className="inline-block px-4 py-1.5 rounded-md bg-green-100 text-green-700 text-sm font-semibold">
-                      Result
+                  {item.result && (
+                    <div className="space-y-2">
+                      <div className="inline-block px-4 py-1.5 rounded-md bg-green-100 text-green-700 text-sm font-semibold">
+                        Result
+                      </div>
+                      <p className="text-base leading-relaxed text-gray-700 ml-2" style={{ lineHeight: "1.9" }}>
+                        {item.result}
+                      </p>
                     </div>
-                    <p className="text-base leading-relaxed text-gray-700" style={{ lineHeight: "1.9" }}>
-                      {item.result}
-                    </p>
-                  </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -788,9 +809,24 @@ export default function ProjectDetailPage() {
       <section className="px-4 md:px-6 mb-16">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-6">What I Learned</h2>
-          <p className="text-base leading-relaxed text-foreground/90" style={{ lineHeight: "1.8" }}>
-            {project.learned}
-          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-5 rounded-xl border border-border bg-muted/30">
+              <div className="flex items-center gap-2 mb-3 text-rose-500 font-semibold text-sm">
+                <span>아쉬웠던 부분</span>
+              </div>
+              <p className="text-base leading-relaxed text-foreground/90" style={{ lineHeight: "1.8" }}>
+                {project.learned.drawback}
+              </p>
+            </div>
+            <div className="p-5 rounded-xl border border-border bg-muted/30">
+              <div className="flex items-center gap-2 mb-3 text-emerald-500 font-semibold text-sm">
+                <span>깨달은 점</span>
+              </div>
+              <p className="text-base leading-relaxed text-foreground/90" style={{ lineHeight: "1.8" }}>
+                {project.learned.insight}
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 

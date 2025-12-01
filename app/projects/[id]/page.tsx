@@ -49,6 +49,18 @@ type ProjectDetail = {
   githubUrl: string
 }
 
+const splitIntoParagraphs = (text: string) => {
+  const trimmed = text.trim()
+  if (!trimmed) return []
+
+  const parts = trimmed.split(/(?<=[.!?])\s+/)
+  if (parts.length <= 1) {
+    return [trimmed]
+  }
+
+  return parts.map((part) => part.trim()).filter(Boolean)
+}
+
 const projectsData: ProjectDetail[] = [
   {
     id: "apilog",
@@ -152,229 +164,190 @@ const projectsData: ProjectDetail[] = [
       { name: "Docker", description: "상태 관리" },
       { name: "OpenAI SDK", description: "데이터베이스" },
     ],
-    liveUrl: "#",
-    githubUrl: "#",
+    liveUrl: "https://apilog.kr/",
+    githubUrl: "https://github.com/APIL0g/APILog",
   },
   {
     id: "see-you-letter",
     title: "See you letter",
-    description: "실시간 AI 채팅 서비스",
-    overview:"냉",
-    problem:"냉",
-    tags: ["Next.js", "OpenAI", "WebSocket", "PostgreSQL"],
-    image: "/ai-chatbot-interface.png",
+    description: "음성으로 일상을 기록하면 AI가 감정을 분석해 편지를 만들고, NFT 형태의 디지털 타임캡슐로 선물할 수 있는 서비스",
+    overview:"음성으로 일상을 기록하면 AI가 감정을 분석해 편지를 만들어주고, 이를 NFT 형태의 디지털 타임캡슐로 선물할 수 있는 서비스입니다. '만약 당신이 내일 죽는다면?'이라는 질문에서 시작되었으며, 감정과 기억을 디지털로 보존하고 원하는 시점에 소중한 사람에게 전달할 수 있는 방법을 제시합니다.",
+    problem:"'만약 당신이 내일 죽는다면?'이라는 질문에서 시작했습니다. 감정과 기억을 디지털로 보존하고, 원하는 시점에 소중한 사람에게 전달할 수 있는 방법이 필요했습니다.",
+    tags: ["Spring Boot", "JPA", "MySQL", "FastAPI", "Docker", "Jenkins", "AWS EC2", "GPT-4.1 Nano", "Claude 3.7 Sonnet", "CosyVoice2", "IPFS", "Ethereum(NFT)"],
+    image: "/see_you_letter.png",
     color: "rgb(99, 102, 241)",
-    duration: "2023.11 - 2024.02 (4개월)",
-    myRole: "백엔드 개발자",
+    duration: "2025.08.25 - 2025.09.29 (5주)",
+    myRole: "인프라 / AI / 디자인",
     myContributions: [
       {
-        title: "OpenAI API 통합",
+        title: "인프라 및 배포 자동화",
         percentage: 100,
-        description: "GPT-4 모델 연동 및 스트리밍 응답 처리 구현",
+        description: " Docker/Jenkins 활용 CI/CD 파이프라인 구축 및 서비스 운영 환경 안정화",
       },
       {
-        title: "WebSocket 실시간 통신",
-        percentage: 80,
-        description: "Socket.io 기반 양방향 채팅 시스템 구축",
+        title: "AI 기반 기록 파이프라인 구축 (35%)",
+        percentage: 35,
+        description: "음성 → STT → LLM 분석(감정/키워드) → 편지 생성 파이프라인 설계, Zero-shot 음성 복제 구현",
       },
       {
-        title: "대화 히스토리 관리",
-        percentage: 60,
-        description: "PostgreSQL 기반 대화 저장/조회 API 개발",
+        title: "UI/UX 디자인",
+        percentage: 30,
+        description: "와이어프레임 설계, 감성 콘셉트 기반 디자인 설계",
       },
     ],
     teamStructure: [
-      { area: "Frontend", members: 2, tasks: "React 개발, WebSocket 통합" },
-      { area: "Backend", members: 1, tasks: "Node.js 서버 개발, API 엔드포인트 구축" },
+      { area: "Frontend", members: 1, tasks: "Kotlin 기반 UI 설계, 워치 연동" },
+      { area: "Backend", members: 3, tasks: "DB 설계, API 개발, 블록체인 개발" },
+      { area: "AI", members: 2, tasks: "음성 복제, 회고 생성(STT/TTS), 편지 생성" },
     ],
     implementation: [
       {
-        title: "실시간 메시지 전송",
-        details: ["React의 상태 관리와 WebSocket을 활용한 실시간 메시지 전송"],
-      },
-      {
-        title: "스트리밍 응답 구현",
-        details: ["OpenAI API의 스트리밍 응답을 활용한 사용자 경험 개선"],
-      },
-      {
-        title: "대화 히스토리 캐싱",
-        details: ["Redis를 활용한 대화 히스토리 캐싱"],
-      },
-      {
-        title: "API 비용 최적화",
-        details: ["요청 큐 시스템과 토큰 카운팅으로 API 비용 최적화"],
-      },
-      {
-        title: "AI 리포트 파이프라인 구축 및 응답 신뢰도/성능 향상",
+        title: "인프라 구축 및 배포 자동화",
         details: [
-          "InfluxDB 로그를 그대로 LLM에 전달하는 방식이 아닌, FastAPI 라우터를 코드 레벨에서 스캔하고 각 엔드포인트에 자동 요청 → 응답 샘플 수집 → 컨텍스트로 전달하는 파이프라인 구축",
-          "리포트가 항상 동일한 구조로 반환되도록 응답 스키마를 먼저 정의하고, LLM 응답을 해당 스키마 기준으로 파싱 → 파싱 에러율 감소",
-          "일부 필드가 스키마와 다르게 오더라도 전체 실패 대신 해당 항목만 목업 데이터로 보완하는 리포트를 완성하도록 구현",
+          "Docker 기반 서비스 컨테이너화로 환경 일관성 확보",
+          "Jenkins 5단계 파이프라인 구성: Source → Build → Test → Dockerize → Deploy",
+          "배포 시간 15분 → 3분 단축 (80% 개선)",
         ],
       },
       {
-        title: "기본 위젯 개발 및 AI 위젯 생성 기능",
+        title: "AI 기반 지능형 기록 파이프라인 구축",
         details: [
-          "세션 기반 브라우저 통계 / 페이지별 이탈률 / 인기 페이지 순위 등 기본 분석 위젯 설계·구현",
-          "사용자가 자연어로 원하는 통계 분석 입력 → 내부 DB 스키마와 함께 LLM에 전달 → 필요한 쿼리와 위젯 스펙(지표, 차트 타입, 축 정보 등) 자동 생성 → 대시보드에서 바로 사용 가능하도록 구현",
+          "기능별 LLM 모델 분리로 응답 지연 개선",
+          "키워드/감정 분석 + 질문 생성: GPT-4.1 Nano (빠른 응답)",
+          "감성 편지 생성: Claude 3.7 Sonnet (고품질 글쓰기)",
+          "음성 입력 → STT → 감정/키워드 추출 → 맞춤형 질문 및 편지 생성 LLM 프롬프트 엔지니어링 설계",
+          "CosyVoice2 기반 Zero-shot 음성 복제 구현 (10~30초 샘플로 목소리 편지 생성)",
         ],
       },
       {
-        title: "오픈소스 및 플러그인 아키텍처 설계",
+        title: "UI/UX 패턴 분석 및 기능 요구사항 분석",
         details: [
-          "코어 로직과 확장 기능을 분리하는 플러그인 아키텍처 설계 → 외부 기여자가 내부 코드 수정 없이 독립적인 위젯 모듈 제작·배포 가능",
-          "컨트리뷰션 가이드 및 커밋 컨벤션 수립, 체계적인 PR 규칙 적용으로 코드 리뷰 효율 향상",
+          "디자인을 담당하며 각 화면에 필요한 API EndPoint와 데이터 구조를 백엔드 관점에서 정의 → FE/BE 간 커뮤니케이션 시간 최소화",
+          "'디지털 타임캡슐' 콘셉트에 맞는 감성적 디자인 설계, 워치 기반 음성 기록을 핵심 플로우로 단순화",
         ],
       },
     ],
     techContext: [
-      { tech: "React 18", context: "UI 프레임워크로 사용자 인터페이스 개발을 담당" },
-      { tech: "Node.js", context: "백엔드 서버로 WebSocket 연결을 처리" },
-      { tech: "OpenAI API", context: "AI 모델로 자연스러운 대화 구현" },
-      { tech: "WebSocket", context: "실시간 메시지 전송을 위한 프로토콜 선택" },
-      { tech: "Redis", context: "대화 히스토리 캐싱을 위한 빠른 데이터 저장소 사용" },
-      { tech: "Express", context: "서버 프레임워크로 API 엔드포인트 구축" },
+      { tech: "NFT + IPFS", context: "편지/음성의 영속성 보장을 위해 블록체인에 영구 보존. 실제 콘텐츠는 대칭키 암호화 후 IPFS에 저장하여 공개 환경에서도 노출 방지" },
+      { tech: "CosyVoice2 ", context: "한국어 억양/톤 재현 품질이 가장 우수. 별도 학습 없이 10~3-초 샘플만으로 Zero-shot 음성 복제 가능" },
+      { tech: "STT/TTS", context: " Whisper API로 음성 → 텍스트 변환 및 핵심 내용 요약 → GPT-4o mini TTS로 맞춤 회고 질문을 통화형식으로 제공 → CosyVoice2로 사용자 음성 복제하여 목소리 편지 생성" },
     ],
     challengesAndSolutions: [
       {
-        title: "OpenAI API의 스트리밍 응답을 실시간으로 처리",
-        problem: "OpenAI API의 스트리밍 응답을 실시간으로 처리하는 과정에서 데이터의 지연이나 손실이 발생했습니다.",
-        analysis: "서버와 클라이언트 간의 데이터 전송이 원활하지 않아 스트리밍 응답이 지연되거나 손실되었습니다.",
-        solution: "Server-Sent Events를 활용한 스트리밍 응답 구현",
-        result: "평균 응답 시간이 2초 이내로 단축되었고, 사용자 경험 개선이 이루어졌습니다.",
+        title: "편지 생성 품질 저하 및 응답 속도 문제",
+        problem: "모든 회고고 데이터를 LLM에 주입 → 기계적인 ‘일간 회고 총정리’ 수준의 편지 생성. 응답시간 44초 소요",
+        analysis: "서버와 클라이언트 간의 데이터 전송이 원활하지 않아 스트리밍 응답이 지연되거나 손실됨.",
+        solution: "프롬프트 엔지니어링으로 LLM 역할 재정의(”진심이 담긴 편지를 작성하는 전문가”), 전체 회고 중 핵심 에피소드만 선택하여 편지 소재로 사용하고 나머지는 맥락 파악용으로 활용하도록 명시",
+        result: "API 응답 시간 44초 → 15초(66% 개선), 에피소드 나열식 → 핵심 감정에 집중한 진정성 있는 편지로 품질 향상",
       },
       {
-        title: "긴 대화 히스토리 관리와 컨텍스트 유지",
-        problem: "긴 대화 히스토리가 많아서 메모리 사용량이 증가하고, 컨텍스트가 일관되지 않았습니다.",
+        title: "음성 복제 품질 및 비용 문제",
+        problem: "GPU 학습 방식은 사용자마다 모델 학습 필요 → 서비스 비용 과다, 학습 시간 30~1시간 소요, 유사도 기대 미달",
         analysis:
           "대화 히스토리를 메모리에 저장하면서 메모리 사용량이 증가했고, 여러 사용자 간의 컨텍스트 관리가 어려웠습니다.",
-        solution: "Redis를 활용한 대화 히스토리 캐싱",
-        result: "메모리 사용량이 줄었고, 사용자 간의 컨텍스트 일관성이 유지되었습니다.",
-      },
-      {
-        title: "API 비용 최적화와 요청 제한 관리",
-        problem: "API 요청이 많아 비용이 높아졌고, 요청 제한으로 인해 일부 요청이 거절되었습니다.",
-        analysis: "API 요청이 많아 비용이 높아졌고, 요청 제한으로 인해 일부 요청이 거절되었습니다.",
-        solution: "요청 큐 시스템과 토큰 카운팅으로 비용 최적화",
-        result: "API 비용이 30% 절감되었고, 요청 제한으로 인한 거절 사례가 줄어들었습니다.",
+        solution: "Zero-Shot TTS 방식으로 전환, 여러 모델 테스트 후 한국어 억양과 톤이 가장 자연스러운 CosyVoice2 선택",
+        result: " 대기 시간 30분 ~ 1시간 → 15초로  줄이고 10초~30초 샘플만으로 자연스러운 목소리 구현 → 즉각적인 서비스 제공 ",
       },
     ],
-    outcomes: ["평균 응답 시간 2초 이내 달성", "API 비용 30% 절감", "사용자 만족도 4.8/5.0 달성"],
+    outcomes: ["SSAFY 자율 프로젝트 우수상(2등) 수상 (2025.10)", "편지 생성 API 응답 속도 66% 개선 (44초 → 15초)", "음성 복제 대기 시간 99% 단축 (30분~1시간 → 15초)", "배포 시간 80% 단축 (15분 → 3분)"],
     learned:
       "WebSocket을 활용한 실시간 통신의 중요성과 OpenAI API의 스트리밍 응답을 활용한 사용자 경험 개선 방법을 배웠습니다. 또한 Redis를 활용한 데이터 캐싱 전략의 효과를 직접 경험하며 성능 최적화의 필요성을 깨달았습니다.",
     techStack: [
-      { name: "Next.js", description: "프레임워크" },
-      { name: "OpenAI API", description: "AI 모델" },
-      { name: "WebSocket", description: "실시간 통신" },
-      { name: "PostgreSQL", description: "데이터베이스" },
-      { name: "TanStack Query", description: "데이터 페칭" },
+      { name: "Spring Boot", description: "프레임워크" },
+      { name: "JPA", description: "AI 모델" },
+      { name: "MySQL", description: "실시간 통신" },
+      { name: "FastAPI", description: "데이터베이스" },
+      { name: "Docker", description: "데이터 페칭" },
+      { name: "Jenkins", description: "데이터 페칭" },
+      { name: "AWS EC2", description: "데이터 페칭" },
+      { name: "IPFS", description: "데이터 페칭" },
+      { name: "Ethereum(NFT)", description: "데이터 페칭" },
     ],
     liveUrl: "#",
-    githubUrl: "#",
+    githubUrl: "https://github.com/SeeY0uLetter/SeeYouLetter",
   },
   {
-    id: "task-management-tool",
-    title: "Task Management Tool",
-    description: "팀 협업을 위한 프로젝트 관리 도구",
-    overview:"냉",
-    problem:"냉",
-    image: "/project-management-dashboard.png",
-    tags: ["Vue.js", "Express", "MySQL", "Docker"],
+    id: "ymhn",
+    title: "예매했냥",
+    description: "예매 일정 놓침 방지와 예매 내역 관리, 관극 일정 관리까지 지원하는 All-in-One 공연 일정 플랫폼",
+    overview:"예매 일정 놓침 방지와 예매 내역 관리, 관극 일정 관리까지 지원하는 All-in-One 공연 일정 플랫폼입니다. 파편화된 공연/뮤지컬 정보로 인해 불편함을 겪고 있는 2030 여성들을 타겟으로 개발했습니다.",
+    problem:"파편화된 공연/뮤지컬 정보로 인해 불편함을 겪고 있는 2030 여성들이 많았습니다. 공연 정보 서비스를 제한된 시간 내에 완성도 있게 구축해야 했고, 이미지 리소스 처리로 인한 성능 문제가 주요 과제였습니다.",
+    image: "/ymhn.png",
+    tags: ["Spring Boot", "JPA", "MySQL", "Redis", "MinIO", "Firebase FCM", "Jenkins", "Docker", "AWS EC2"],
     color: "rgb(139, 92, 246)",
-    duration: "2023.07 - 2023.10 (4개월)",
-    myRole: "프론트엔드 개발자",
+    duration: "2025.07.14 - 2025.08.18 (5주)",
+    myRole: "팀장 / 백엔드 / 디자인인",
     myContributions: [
       {
-        title: "칸반 보드 UI 구현",
+        title: "로그인 및 JWT 발급",
         percentage: 100,
-        description: "Drag & Drop 기반 태스크 이동 및 상태 관리 시스템 개발",
+        description: "Access/Refresh Token 분리 구조 설계 및 Spring Security 기반 인증 필터 구현",
       },
       {
-        title: "실시간 협업 기능",
-        percentage: 70,
-        description: "WebSocket 기반 멀티 유저 동시 편집 기능 구현",
+        title: "API 개발 / 대용량 이미지 처리 및 성능 최적화",
+        percentage: 35,
+        description: "MinIO 스토리지 서버 연동 및 이미지 업로드/조회 REST API 구현",
       },
       {
-        title: "알림 시스템",
-        percentage: 50,
-        description: "태스크 할당/변경 시 실시간 알림 UI 개발",
+        title: "Firebase 알림 구현",
+        percentage: 35,
+        description: "예매/공연 일정과 연동된 FCM 푸시 알림 발송 모듈 구현",
       },
     ],
-    teamStructure: [{ area: "Frontend", members: 2, tasks: "Vue.js 개발, WebSocket 통합" }],
+    teamStructure: [
+      { area: "Frontend", members: 3, tasks: "UI/UX 개발" },
+      { area: "Backend", members: 2, tasks: "크롤링, DB 설계, API 개발, 알림 구현" },
+      { area: "AI", members: 1, tasks: "OCR 기반 티켓 자동 등록" },
+    ],
     implementation: [
       {
-        title: "UI 개발",
-        details: ["Vue.js를 활용한 UI 개발"],
-      },
-      {
-        title: "백엔드 서버 개발",
-        details: ["Express를 활용한 백엔드 서버 개발"],
-      },
-      {
-        title: "데이터베이스 구축",
-        details: ["MySQL 기반 데이터베이스 구축"],
-      },
-      {
-        title: "컨테이너화 배포",
-        details: ["Docker를 활용한 컨테이너화 배포"],
-      },
-      {
-        title: "AI 리포트 파이프라인 구축 및 응답 신뢰도/성능 향상",
+        title: "JWT 기반 보안 인증 시스템 구축",
         details: [
-          "InfluxDB 로그를 그대로 LLM에 전달하는 방식이 아닌, FastAPI 라우터를 코드 레벨에서 스캔하고 각 엔드포인트에 자동 요청 → 응답 샘플 수집 → 컨텍스트로 전달하는 파이프라인 구축",
-          "리포트가 항상 동일한 구조로 반환되도록 응답 스키마를 먼저 정의하고, LLM 응답을 해당 스키마 기준으로 파싱 → 파싱 에러율 감소",
-          "일부 필드가 스키마와 다르게 오더라도 전체 실패 대신 해당 항목만 목업 데이터로 보완하는 리포트를 완성하도록 구현",
+          "Access Token + Refresh Token 분리 발급 로직 설계",
+          "**Stateless 인증 환경** 구축으로 서버 세션 저장소 부하 감소",
+          "토큰 탈취 위험 최소화",
         ],
       },
       {
-        title: "기본 위젯 개발 및 AI 위젯 생성 기능",
+        title: "Object Storage(MinIO) 도입으로 이미지 렌더링 성능 70% 개선",
         details: [
-          "세션 기반 브라우저 통계 / 페이지별 이탈률 / 인기 페이지 순위 등 기본 분석 위젯 설계·구현",
-          "사용자가 자연어로 원하는 통계 분석 입력 → 내부 DB 스키마와 함께 LLM에 전달 → 필요한 쿼리와 위젯 스펙(지표, 차트 타입, 축 정보 등) 자동 생성 → 대시보드에서 바로 사용 가능하도록 구현",
+          "외부 URL 의존성 제거 → 자체 서버로 Migration",
+          "이미지 렌더링 시간 **11.4초 → 3.4초** 단축",
         ],
       },
       {
-        title: "오픈소스 및 플러그인 아키텍처 설계",
+        title: "Firebase FCM 실시간 알림 서비스 구현",
         details: [
-          "코어 로직과 확장 기능을 분리하는 플러그인 아키텍처 설계 → 외부 기여자가 내부 코드 수정 없이 독립적인 위젯 모듈 제작·배포 가능",
-          "컨트리뷰션 가이드 및 커밋 컨벤션 수립, 체계적인 PR 규칙 적용으로 코드 리뷰 효율 향상",
+          "예매 일정, 공연 일정 등 이벤트 발생 시 푸시 알림 전송",
+          "사용자 편의성 및 재방문율 향상 기여",
         ],
       },
     ],
     techContext: [
-      { tech: "Vue.js", context: "UI 프레임워크로 사용자 인터페이스 개발을 담당" },
-      { tech: "Express", context: "백엔드 서버로 API 엔드포인트 구축" },
-      { tech: "MySQL", context: "데이터베이스로 관계형 데이터를 저장 및 관리" },
-      { tech: "Docker", context: "컨테이너화로 배포 및 확장성을 높임" },
+      { tech: "MinIO", context: "외부 URL 호출 시 서버 장애 의존성, Rate Limit 제약, 11.4초 로딩 지연 문제 → 내부 Object Storage로 Migration하여 안정성 확보 및 70% 성능 개선" },
+      { tech: "Firebase FCM", context: "Polling 방식의 불필요한 HTTP 요청 제거, 이벤트 기반 실시간 알림 보장"},
+      { tech: "Redis", context: "디바이스 토큰을 memberId와 매핑하여 불필요한 RDB 호출을 줄이고 지연 없는 알림 환경 구축"},
     ],
     challengesAndSolutions: [
       {
-        title: "Vue.js와 WebSocket 통합",
-        problem: "Vue.js와 WebSocket을 통합하는 과정에서 실시간 데이터 업데이트가 제대로 이루어지지 않았습니다.",
-        analysis:
-          "Vue.js의 반응성 시스템과 WebSocket의 이벤트 처리 방식이 맞지 않아 데이터 업데이트가 지연되거나 누락되었습니다.",
-        solution: "Vue.js의 컴포넌트와 WebSocket을 활용한 실시간 데이터 업데이트 구현",
-        result: "실시간 업데이트 지연 시간이 100ms 이하로 단축되었고, 데이터 누락 사례가 줄어들었습니다.",
+        title: "JPA Fetch Join 페이지네이션 Count 쿼리 중복 계산 문제",
+        problem: "선호 공연 목록 조회 시 실제 10개 데이터가 40개(4페이지)로 잘못 계산",
+        analysis:"1:N 관계 컬렉션을 LEFT JOIN FETCH하면 부모 엔티티가 자식 수만큼 중복 조회 → JPA 자동 Count 쿼리가 중복 행을 모두 합산",
+        solution: "데이터 조회와 개수 계산 로직 분리, 공연 ID만 카운팅하는 별도 쿼리 작성",
+        result: "데이터 로딩 시 Fetch Join은 유지하면서 N+1 문제 해결하고 페이지네이션 정합성 확보",
       },
       {
-        title: "실시간 협업 기능의 동시 편집 처리",
-        problem: "실시간 협업 기능에서 여러 사용자가 동시에 편집할 때 데이터 충돌이 발생했습니다.",
+        title: "대용량 이미지 리소스 처리 성능 문제",
+        problem: "공연 서비스 특성상 이미지가 많았고, 외부 URL 순차적 요청으로 평균 11초 네트워크 지연 발생, 사용자 이탈 유발 가능성",
         analysis: "WebSocket을 활용한 실시간 데이터 전송 시 데이터 충돌 방지 로직이 부족했습니다.",
-        solution: "WebSocket을 활용한 멀티 유저 동시 편집 기능 구현",
-        result: "데이터 충돌 사례가 0건으로 감소했고, 사용자 협업 효율성이 향상되었습니다.",
-      },
-      {
-        title: "알림 시스템의 UI 개발",
-        problem: "알림 시스템의 UI 개발 과정에서 사용자에게 명확한 피드백이 제공되지 않았습니다.",
-        analysis: "알림 시스템의 UI가 부족해 사용자에게 명확한 피드백이 제공되지 않았습니다.",
-        solution: "Vue.js를 활용한 실시간 알림 UI 개발",
-        result: "알림 시스템의 UI가 개선되어 사용자에게 명확한 피드백이 제공되었습니다.",
+        solution: "MinIO 도입으로 이미지 서비스 책임 분리, 클라이언트에게 직접 전송하는 구조로 변경. 추가 최적화: JPG/GIF → WEBP 변환 + 120×160 리사이징으로 용량 95.6% 감소",
+        result: "로딩 시간 11.4초 → 3.4초 (70% 개선)",
       },
     ],
     outcomes: [
-      "실시간 업데이트 지연 시간 100ms 이하",
-      "태스크 이동 및 상태 변경 시 실시간 알림 제공",
-      "월간 활성 사용자 5,000명 달성",
+      "SSAFY 공통 프로젝트 우수상(3등) 수상 (2025.08)",
+      "이미지 렌더링 성능 70% 개선 (11.4초 → 3.4초)",
+      "이미지 용량 90% 감소 (WEBP 변환 + 리사이징)",
     ],
     learned:
       "Vue.js와 WebSocket을 활용한 실시간 애플리케이션 개발 방법을 배웠습니다. 또한 실시간 협업 기능의 복잡성과 알림 시스템의 중요성을 이해하게 되었습니다.",
@@ -385,125 +358,7 @@ const projectsData: ProjectDetail[] = [
       { name: "Docker", description: "컨테이너화" },
     ],
     liveUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    id: "healthcare-monitoring",
-    title: "Healthcare Monitoring System",
-    description: "환자 건강 데이터 실시간 모니터링",
-    overview:"냉",
-    problem:"냉",
-    image: "/healthcare-dashboard.png",
-    tags: ["React", "Python", "TensorFlow", "Redis"],
-    color: "rgb(34, 197, 94)",
-    duration: "2023.03 - 2023.06 (4개월)",
-    myRole: "백엔드 / AI 개발자",
-    myContributions: [
-      {
-        title: "데이터 수집 파이프라인",
-        percentage: 100,
-        description: "IoT 센서 데이터 수집 및 Redis 기반 실시간 처리 시스템 구축",
-      },
-      {
-        title: "이상 탐지 모델 개발",
-        percentage: 80,
-        description: "TensorFlow 기반 환자 상태 이상 탐지 ML 모델 개발 및 배포",
-      },
-      {
-        title: "REST API 개발",
-        percentage: 90,
-        description: "Flask 기반 데이터 조회/분석 API 구현",
-      },
-    ],
-    teamStructure: [
-      { area: "Frontend", members: 2, tasks: "React 개발, WebSocket 통합" },
-      { area: "Backend", members: 2, tasks: "Python 서버 개발, ML 모델 개발" },
-      { area: "AI", members: 1, tasks: "TensorFlow 모델 개발 및 배포" },
-    ],
-    implementation: [
-      {
-        title: "UI 개발",
-        details: ["React를 활용한 UI 개발"],
-      },
-      {
-        title: "백엔드 서버 개발",
-        details: ["Python Flask를 활용한 백엔드 서버 개발"],
-      },
-      {
-        title: "AI 모델 개발 및 배포",
-        details: ["TensorFlow를 활용한 AI 모델 개발 및 배포"],
-      },
-      {
-        title: "실시간 데이터 처리 시스템 구축",
-        details: ["Redis를 활용한 실시간 데이터 처리 시스템 구축"],
-      },
-      {
-        title: "AI 리포트 파이프라인 구축 및 응답 신뢰도/성능 향상",
-        details: [
-          "InfluxDB 로그를 그대로 LLM에 전달하는 방식이 아닌, FastAPI 라우터를 코드 레벨에서 스캔하고 각 엔드포인트에 자동 요청 → 응답 샘플 수집 → 컨텍스트로 전달하는 파이프라인 구축",
-          "리포트가 항상 동일한 구조로 반환되도록 응답 스키마를 먼저 정의하고, LLM 응답을 해당 스키마 기준으로 파싱 → 파싱 에러율 감소",
-          "일부 필드가 스키마와 다르게 오더라도 전체 실패 대신 해당 항목만 목업 데이터로 보완하는 리포트를 완성하도록 구현",
-        ],
-      },
-      {
-        title: "기본 위젯 개발 및 AI 위젯 생성 기능",
-        details: [
-          "세션 기반 브라우저 통계 / 페이지별 이탈률 / 인기 페이지 순위 등 기본 분석 위젯 설계·구현",
-          "사용자가 자연어로 원하는 통계 분석 입력 → 내부 DB 스키마와 함께 LLM에 전달 → 필요한 쿼리와 위젯 스펙(지표, 차트 타입, 축 정보 등) 자동 생성 → 대시보드에서 바로 사용 가능하도록 구현",
-        ],
-      },
-      {
-        title: "오픈소스 및 플러그인 아키텍처 설계",
-        details: [
-          "코어 로직과 확장 기능을 분리하는 플러그인 아키텍처 설계 → 외부 기여자가 내부 코드 수정 없이 독립적인 위젯 모듈 제작·배포 가능",
-          "컨트리뷰션 가이드 및 커밋 컨벤션 수립, 체계적인 PR 규칙 적용으로 코드 리뷰 효율 향상",
-        ],
-      },
-    ],
-    techContext: [
-      { tech: "React", context: "UI 프레임워크로 사용자 인터페이스 개발을 담당" },
-      { tech: "Python Flask", context: "백엔드 서버로 API 엔드포인트 구축" },
-      { tech: "TensorFlow", context: "AI 모델로 환자 상태 이상 탐지 구현" },
-      { tech: "Redis", context: "실시간 데이터 처리를 위한 빠른 데이터 저장소 사용" },
-    ],
-    challengesAndSolutions: [
-      {
-        title: "IoT 센서 데이터 수집 및 처리",
-        problem: "IoT 센서 데이터를 수집하고 실시간으로 처리하는 과정에서 데이터 손실이나 지연이 발생했습니다.",
-        analysis: "데이터 수집 및 처리 로직이 부족해 데이터 손실이나 지연이 발생했습니다.",
-        solution: "Redis를 활용한 실시간 데이터 처리 시스템 구축",
-        result: "실시간 데이터 처리 지연 시간이 50ms 이하로 단축되었고, 데이터 손실 사례가 줄어들었습니다.",
-      },
-      {
-        title: "TensorFlow 모델의 개발 및 배포",
-        problem: "TensorFlow 모델의 개발 및 배포 과정에서 모델의 정확도와 성능이 저하되었습니다.",
-        analysis: "모델 개발 및 배포 로직이 부족해 모델의 정확도와 성능이 저하되었습니다.",
-        solution: "TensorFlow를 활용한 AI 모델 개발 및 배포",
-        result: "이상 탐지 모델 정확도가 95% 이상으로 향상되었고, 모델의 성능이 개선되었습니다.",
-      },
-      {
-        title: "REST API의 성능 최적화",
-        problem: "REST API의 성능이 저하되어 데이터 조회/분석 속도가 느려졌습니다.",
-        analysis: "API 구현 로직이 부족해 성능이 저하되었습니다.",
-        solution: "Flask를 활용한 효율적인 API 구현",
-        result: "REST API의 성능이 개선되어 데이터 조회/분석 속도가 향상되었습니다.",
-      },
-    ],
-    outcomes: [
-      "실시간 데이터 처리 지연 시간 50ms 이하",
-      "이상 탐지 모델 정확도 95% 이상",
-      "월간 활성 사용자 3,000명 달성",
-    ],
-    learned:
-      "IoT 센서 데이터 처리와 TensorFlow 기반 AI 모델 개발 방법을 배웠습니다. 또한 Flask를 활용한 REST API 개발의 효율성과 Redis의 성능을 직접 경험하며 데이터 처리의 중요성을 깨달았습니다.",
-    techStack: [
-      { name: "React", description: "UI 프레임워크" },
-      { name: "Python Flask", description: "백엔드 서버" },
-      { name: "TensorFlow", description: "AI 모델" },
-      { name: "Redis", description: "캐싱" },
-    ],
-    liveUrl: "#",
-    githubUrl: "#",
+    githubUrl: "https://github.com/jxhee99/YMHN",
   },
 ]
 
@@ -691,7 +546,7 @@ export default function ProjectDetailPage() {
 
           {/* Team Structure */}
           <div className="mb-8">
-            <h3 className="text-2xl font-bold mb-4">Team Structure</h3>
+            <h3 className="text-2xl font-bold mb-4">팀 내 역할 분담</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {project.teamStructure.map((team, i) => (
                 <div key={i} className="p-5 rounded-xl border border-border bg-muted/30">
@@ -707,18 +562,20 @@ export default function ProjectDetailPage() {
 
           {/* My Contribution */}
           <div className="mb-8">
-            <h3 className="text-2xl font-bold mb-6">My Contribution</h3>
+            <h3 className="text-2xl font-bold mb-6">개인 기여도</h3>
             <div className="space-y-6">
               {project.myContributions.map((contribution, index) => (
                 <div key={index}>
-                  <div className="flex items-center gap-3 mb-2">
-                    <h4 className="text-xl font-bold">{contribution.title}</h4>
-                    <span className="text-sm font-semibold text-primary flex-shrink-0">
-                      ({contribution.percentage}%)
-                    </span>
-                    <div className="flex-1 bg-muted rounded-full h-2">
+                  <div className="flex flex-col gap-3 mb-3">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <h4 className="text-xl font-bold">{contribution.title}</h4>
+                      <span className="text-sm font-semibold text-primary flex-shrink-0">
+                        ({contribution.percentage}%)
+                      </span>
+                    </div>
+                    <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
                       <div
-                        className="bg-primary h-2 rounded-full transition-all duration-500"
+                        className="bg-primary h-full rounded-full transition-all duration-500"
                         style={{ width: `${contribution.percentage}%` }}
                       />
                     </div>
@@ -732,7 +589,7 @@ export default function ProjectDetailPage() {
 
           {/* Implementation Details */}
           <div className="mb-8">
-            <h3 className="text-2xl font-bold mb-6">Implementation Details</h3>
+            <h3 className="text-2xl font-bold mb-6">구현 내용</h3>
             <div className="space-y-6">
               {project.implementation.map((item, i) => (
                 <div key={i} className="border rounded-xl p-6 bg-background hover:shadow-md transition-shadow">
@@ -785,9 +642,11 @@ export default function ProjectDetailPage() {
                   <h4 className="font-bold text-base mb-1" style={{ color: project.color }}>
                     {item.tech}
                   </h4>
-                  <p className="text-sm leading-relaxed" style={{ lineHeight: "1.7" }}>
-                    {item.context}
-                  </p>
+                  <div className="space-y-2 text-base leading-relaxed" style={{ lineHeight: "1.8" }}>
+                    {splitIntoParagraphs(item.context).map((paragraph, idx) => (
+                      <p key={idx}>{paragraph}</p>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>
@@ -814,7 +673,7 @@ export default function ProjectDetailPage() {
                     <div className="inline-block px-4 py-1.5 rounded-md bg-red-100 text-red-700 text-sm font-semibold">
                       Problem
                     </div>
-                    <p className="text-sm leading-relaxed text-gray-700" style={{ lineHeight: "1.8" }}>
+                    <p className="text-base leading-relaxed text-gray-700" style={{ lineHeight: "1.9" }}>
                       {item.problem}
                     </p>
                   </div>
@@ -824,7 +683,7 @@ export default function ProjectDetailPage() {
                     <div className="inline-block px-4 py-1.5 rounded-md bg-orange-100 text-orange-700 text-sm font-semibold">
                       Cause
                     </div>
-                    <p className="text-sm leading-relaxed text-gray-700" style={{ lineHeight: "1.8" }}>
+                    <p className="text-base leading-relaxed text-gray-700" style={{ lineHeight: "1.9" }}>
                       {item.analysis}
                     </p>
                   </div>
@@ -834,7 +693,7 @@ export default function ProjectDetailPage() {
                     <div className="inline-block px-4 py-1.5 rounded-md bg-blue-100 text-blue-700 text-sm font-semibold">
                       Solution
                     </div>
-                    <p className="text-sm leading-relaxed text-gray-700" style={{ lineHeight: "1.8" }}>
+                    <p className="text-base leading-relaxed text-gray-700" style={{ lineHeight: "1.9" }}>
                       {item.solution}
                     </p>
                   </div>
@@ -844,7 +703,7 @@ export default function ProjectDetailPage() {
                     <div className="inline-block px-4 py-1.5 rounded-md bg-green-100 text-green-700 text-sm font-semibold">
                       Result
                     </div>
-                    <p className="text-sm leading-relaxed text-gray-700" style={{ lineHeight: "1.8" }}>
+                    <p className="text-base leading-relaxed text-gray-700" style={{ lineHeight: "1.9" }}>
                       {item.result}
                     </p>
                   </div>

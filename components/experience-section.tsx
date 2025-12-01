@@ -1,0 +1,147 @@
+"use client"
+
+import { useEffect, useRef, useState } from "react"
+
+export function ExperienceSection() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting)
+      },
+      { threshold: 0.2 },
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
+  const experiences = [
+    {
+      company: "Tech Company A",
+      role: "Senior Frontend Developer",
+      period: "2022.03 - Present",
+      description: "Next.js와 React를 활용한 대규모 프로젝트 개발 및 팀 리딩",
+    },
+    {
+      company: "Startup B",
+      role: "Full Stack Developer",
+      period: "2020.06 - 2022.02",
+      description: "웹 서비스 설계부터 배포까지 전체 개발 프로세스 담당",
+    },
+    {
+      company: "Agency C",
+      role: "Frontend Developer",
+      period: "2019.03 - 2020.05",
+      description: "다양한 클라이언트 프로젝트의 프론트엔드 개발",
+    },
+  ]
+
+  const achievements = [
+    { type: "certification", name: "AWS Certified Solutions Architect", year: "2023" },
+    { type: "certification", name: "Google Cloud Professional Developer", year: "2022" },
+    { type: "certification", name: "정보처리기사", year: "2021" },
+    { type: "award", name: "Best Web Developer Award", organization: "Tech Conference 2023", year: "2023" },
+    { type: "award", name: "Hackathon 1st Place", organization: "Startup Weekend", year: "2022" },
+    { type: "award", name: "Innovation Award", organization: "University Competition", year: "2021" },
+  ]
+
+  const certifications = achievements.filter((item) => item.type === "certification")
+  const awards = achievements.filter((item) => item.type === "award")
+
+  return (
+    <section
+      id="experience"
+      ref={sectionRef}
+      className="min-h-screen relative py-20 snap-start overflow-hidden"
+      style={{ paddingTop: 80 }}
+    >
+      <div className="container mx-auto px-6">
+        <div className="max-w-6xl mx-auto">
+          {/* Experience */}
+          <div className="mb-16 lg:mb-24">
+            <h2
+              className={`text-3xl md:text-5xl lg:text-6xl font-bold mb-8 lg:mb-12 transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}
+            >
+              Experience
+            </h2>
+
+            <div className="space-y-6 lg:space-y-8">
+              {experiences.map((exp, i) => (
+                <div
+                  key={i}
+                  className={`border-l-2 border-primary/30 pl-6 lg:pl-8 transition-all duration-1000 ${isVisible ? "translate-x-0 opacity-100" : "-translate-x-12 opacity-0"}`}
+                  style={{ transitionDelay: `${0.1 + i * 0.1}s` }}
+                >
+                  <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-2">
+                    <div>
+                      <h3 className="text-xl lg:text-2xl font-bold mb-1">{exp.role}</h3>
+                      <p className="text-base lg:text-lg text-primary">{exp.company}</p>
+                    </div>
+                    <span className="text-sm lg:text-base text-muted-foreground mt-2 md:mt-0">{exp.period}</span>
+                  </div>
+                  <p className="text-sm lg:text-base text-muted-foreground leading-relaxed">{exp.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Certifications & Awards */}
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-16">
+            {/* Certifications */}
+            <div>
+              <h2
+                className={`text-2xl md:text-4xl lg:text-5xl font-bold mb-6 lg:mb-8 transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}
+                style={{ transitionDelay: "0.4s" }}
+              >
+                Certifications
+              </h2>
+
+              <div className="space-y-4">
+                {certifications.map((cert, i) => (
+                  <div
+                    key={i}
+                    className={`p-4 lg:p-5 rounded-lg bg-muted/30 backdrop-blur-sm transition-all duration-1000 hover:bg-muted/50 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}
+                    style={{ transitionDelay: `${0.5 + i * 0.1}s` }}
+                  >
+                    <h3 className="text-base lg:text-lg font-semibold mb-1">{cert.name}</h3>
+                    <p className="text-sm text-muted-foreground">{cert.year}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Awards */}
+            <div>
+              <h2
+                className={`text-2xl md:text-4xl lg:text-5xl font-bold mb-6 lg:mb-8 transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}
+                style={{ transitionDelay: "0.4s" }}
+              >
+                Awards
+              </h2>
+
+              <div className="space-y-4">
+                {awards.map((award, i) => (
+                  <div
+                    key={i}
+                    className={`p-4 lg:p-5 rounded-lg bg-muted/30 backdrop-blur-sm transition-all duration-1000 hover:bg-muted/50 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}
+                    style={{ transitionDelay: `${0.5 + i * 0.1}s` }}
+                  >
+                    <h3 className="text-base lg:text-lg font-semibold mb-1">{award.name}</h3>
+                    <p className="text-xs lg:text-sm text-muted-foreground">{award.organization}</p>
+                    <p className="text-xs lg:text-sm text-muted-foreground">{award.year}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

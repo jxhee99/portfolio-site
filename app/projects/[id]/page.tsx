@@ -7,6 +7,8 @@ type ProjectDetail = {
   id: string
   title: string
   description: string
+  overview: string
+  problem: string
   tags: string[]
   image: string
   color: string
@@ -52,6 +54,8 @@ const projectsData: ProjectDetail[] = [
     id: "apilog",
     title: "APILog",
     description: "서비스 로그를 수집해 AI 리포트와 커스텀 위젯을 자동으로 생성하는 오픈소스 로그 분석 플랫폼",
+    overview:"서비스 로그를 수집해 AI 리포트와 커스텀 위젯을 자동으로 만들어주는 오픈소스 로그 분석 플랫폼입니다. 운영자가 직접 쿼리를 짜고 지표를 조합하던 일을, LLM 기반 에이전트가 대신 수행하도록 설계했습니다. '그래서 지금 서비스가 어떤 상태인지, 뭐가 문제인지'를 에이전트가 알려줍니다.",
+    problem:"운영자는 수많은 로그와 대시보드를 가지고 있지만, '그래서 지금 서비스가 어떤 상태인지, 뭐가 문제인지'를 이해하기 위해 매번 수동으로 쿼리를 짜고 지표를 조합해야 했습니다. 이 과정을 에이전트가 대신해 줄 수 없을까?라는 질문에서 APILog를 시작했습니다.",
     tags: ["Python", "FastAPI", "InfluxDB", "Pydantic", "OpenAI SDK", "Docker", "LLM"],
     image: "/apilog-portlet.gif",
     color: "rgb(59, 130, 246)",
@@ -152,9 +156,11 @@ const projectsData: ProjectDetail[] = [
     githubUrl: "#",
   },
   {
-    id: "ai-chat-application",
-    title: "AI Chat Application",
+    id: "see-you-letter",
+    title: "See you letter",
     description: "실시간 AI 채팅 서비스",
+    overview:"냉",
+    problem:"냉",
     tags: ["Next.js", "OpenAI", "WebSocket", "PostgreSQL"],
     image: "/ai-chatbot-interface.png",
     color: "rgb(99, 102, 241)",
@@ -270,6 +276,8 @@ const projectsData: ProjectDetail[] = [
     id: "task-management-tool",
     title: "Task Management Tool",
     description: "팀 협업을 위한 프로젝트 관리 도구",
+    overview:"냉",
+    problem:"냉",
     image: "/project-management-dashboard.png",
     tags: ["Vue.js", "Express", "MySQL", "Docker"],
     color: "rgb(139, 92, 246)",
@@ -383,6 +391,8 @@ const projectsData: ProjectDetail[] = [
     id: "healthcare-monitoring",
     title: "Healthcare Monitoring System",
     description: "환자 건강 데이터 실시간 모니터링",
+    overview:"냉",
+    problem:"냉",
     image: "/healthcare-dashboard.png",
     tags: ["React", "Python", "TensorFlow", "Redis"],
     color: "rgb(34, 197, 94)",
@@ -649,7 +659,7 @@ export default function ProjectDetailPage() {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-6">Overview</h2>
           <p className="text-base leading-relaxed text-foreground/90" style={{ lineHeight: "1.8" }}>
-            {project.description}
+            {project.overview}
           </p>
         </div>
       </section>
@@ -659,7 +669,7 @@ export default function ProjectDetailPage() {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-6">Problem</h2>
           <p className="text-base leading-relaxed text-foreground/90" style={{ lineHeight: "1.8" }}>
-            {project.description}
+            {project.problem}
           </p>
         </div>
       </section>

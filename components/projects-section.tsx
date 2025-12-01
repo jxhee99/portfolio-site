@@ -50,8 +50,8 @@ const projects = [
     color: "rgb(59, 130, 246)",
   },
   {
-    id: "ai-chat-application",
-    title: "AI Chat Application",
+    id: "see-you-letter",
+    title: "See you letter",
     description: "실시간 AI 채팅 애플리케이션. OpenAI API를 통합하여 자연스러운 대화 구현",
     tags: ["React", "Node.js", "OpenAI", "WebSocket"],
     image: "/ai-chat-interface.png",

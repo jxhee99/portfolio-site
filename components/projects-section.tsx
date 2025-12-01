@@ -52,26 +52,18 @@ const projects = [
   {
     id: "see-you-letter",
     title: "See you letter",
-    description: "실시간 AI 채팅 애플리케이션. OpenAI API를 통합하여 자연스러운 대화 구현",
-    tags: ["React", "Node.js", "OpenAI", "WebSocket"],
-    image: "/ai-chat-interface.png",
+    description: "음성으로 일상을 기록하면 AI가 감정을 분석해 편지를 만들고, NFT 형태의 디지털 타임캡슐로 선물할 수 있는 서비스",
+    tags: ["Spring Boot", "JPA", "MySQL", "FastAPI", "Docker", "Jenkins", "AWS EC2", "IPFS", "Ethereum(NFT)"],
+    image: "/see_you_letter.png",
     color: "rgb(99, 102, 241)",
   },
   {
-    id: "portfolio-dashboard",
-    title: "Portfolio Dashboard",
+    id: "ymhn",
+    title: "예매했냥",
     description: "인터랙티브 데이터 시각화 대시보드. 실시간 차트와 애니메이션으로 데이터 표현",
-    tags: ["Next.js", "D3.js", "Framer Motion", "PostgreSQL"],
-    image: "/analytics-dashboard.png",
+    tags:["Spring Boot", "JPA", "MySQL", "Redis", "MinIO", "Firebase FCM", "Jenkins", "Docker", "AWS EC2"],
+    image: "/ymhn.png",
     color: "rgb(139, 92, 246)",
-  },
-  {
-    id: "social-media-app",
-    title: "Social Media App",
-    description: "모던한 소셜 미디어 플랫폼. 이미지 업로드, 좋아요, 댓글 기능 구현",
-    tags: ["React", "Firebase", "Tailwind CSS", "Redux"],
-    image: "/social-media-feed.jpg",
-    color: "rgb(34, 197, 94)",
   },
 ]
 

@@ -236,9 +236,9 @@ const projectsData: ProjectDetail[] = [
         description:
           "**음성 → STT → LLM 분석(감정/키워드) → 편지 생성** 파이프라인 설계, **Zero-shot 음성 복제** 구현",
         demoMediaGallery: [
-          { src: "/voice.gif", alt: "See you letter 음성 기록 흐름" },
-          { src: "/retrospect.gif", alt: "See you letter 회고 생성 흐름" },
-          { src: "/letter.gif", alt: "See you letter 편지 생성 화면" },
+          { src: "/voice.gif", alt: "음성 기록" },
+          { src: "/retrospect.gif", alt: "AI 회고 생성" },
+          { src: "/letter.gif", alt: "감성 편지 생성" },
         ],
       },
       {
@@ -687,6 +687,7 @@ export default function ProjectDetailPage() {
                 const hasGallery = Boolean(contribution.demoMediaGallery?.length)
                 const hasMedia = Boolean(contribution.demoMedia || hasGallery)
                 const currentGalleryIndex = galleryIndexes[contribution.title] ?? 0
+                const currentGalleryItem = contribution.demoMediaGallery?.[currentGalleryIndex]
 
                 return (
                   <div key={index}>
@@ -765,10 +766,15 @@ export default function ProjectDetailPage() {
                       <div className="mt-4 rounded-2xl border border-border bg-muted/30 overflow-hidden">
                         <div className="relative">
                           <img
-                            src={contribution.demoMediaGallery?.[currentGalleryIndex]?.src}
-                            alt={contribution.demoMediaGallery?.[currentGalleryIndex]?.alt}
+                            src={currentGalleryItem?.src}
+                            alt={currentGalleryItem?.alt}
                             className="w-full h-auto object-cover"
                           />
+                          {currentGalleryItem?.alt && (
+                            <div className="absolute left-3 top-3 bg-background/80 backdrop-blur-sm border border-border rounded-full px-4 py-1 text-xs font-semibold text-foreground shadow-sm">
+                              {currentGalleryItem.alt}
+                            </div>
+                          )}
                           <button
                             type="button"
                             className="absolute left-3 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm border border-border rounded-full w-10 h-10 flex items-center justify-center hover:bg-background transition-colors"

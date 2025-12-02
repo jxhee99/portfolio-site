@@ -161,7 +161,7 @@ export function HeroSection() {
                       : "none",
                   }}
                 >
-                  Creative
+                  Curiosity
                 </span>
               </span>
               <span className="block overflow-hidden mt-2">
@@ -197,9 +197,9 @@ export function HeroSection() {
                   : "translateY(48px)",
               }}
             >
-              감각적인 디자인과 최적화된 코드로
+              호기심을 성과로 바꾸고
               <br />
-              사용자 경험을 창조합니다
+              병목을 찾아 부수는 일을 합니다
             </p>
           </div>
 

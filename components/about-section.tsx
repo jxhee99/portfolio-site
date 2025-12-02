@@ -21,7 +21,7 @@ export function AboutSection() {
     return () => observer.disconnect()
   }, [])
 
-  const words = "디테일에 집중하는 개발자".split(" ")
+  const words = "스펀지 실험맨 같은 개발자".split(" ")
 
   return (
     <section
@@ -56,59 +56,39 @@ export function AboutSection() {
                 </span>
               ))}
               <br />
-              <span className="text-muted-foreground inline-block overflow-hidden">
+              <span className="text-blue-400 inline-block overflow-hidden">
                 <span
                   className={`inline-block transition-all duration-700 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"}`}
                   style={{ transitionDelay: "0.6s" }}
                 >
-                  개발자입니다
+                  김주희입니다
                 </span>
               </span>
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4 lg:gap-16">
+          <div className="space-y-6 md:space-y-8">
             <div
-              className={`space-y-4 transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}
+              className={`transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}
               style={{ transitionDelay: "0.4s" }}
             >
-              <p className="text-sm md:text-lg text-muted-foreground leading-relaxed">
-                저는 사용자 경험을 최우선으로 생각하며, 아름답고 직관적인 인터페이스를 구현하는 것을 즐깁니다. 최신 웹
-                기술을 활용하여 성능과 접근성을 모두 고려한 솔루션을 제공합니다.
+              <p className="text-lg md:text-xl lg:text-2xl text-foreground leading-relaxed">
+                <span className="font-bold">AI, 인프라, 백엔드</span>를 가리지 않고 직접 부딪혀 보며 배워왔습니다. 
+                <br />
+                <span className="font-bold">"저 팀은 뭘 하지?"라는 호기심이</span> 새로운 기술 스택을 익히는 동력이 되었고,
+                <br />
+                낯선 영역에서도 빠르게 <span className="font-bold">1인분 이상의 성과</span>를 내는 것이 제 강점입니다. 
               </p>
             </div>
 
             <div
-              className={`space-y-4 transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}
+              className={`transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}
               style={{ transitionDelay: "0.5s" }}
             >
-              <p className="text-sm md:text-lg text-muted-foreground leading-relaxed">
-                React, Next.js, TypeScript를 주로 사용하며, 애니메이션과 인터랙션을 통해 사용자에게 즐거운 경험을
-                선사하는 것이 목표입니다.
+              <p className="text-lg md:text-xl lg:text-2xl text-foreground leading-relaxed">
+                어디에 배치되든 <span className="font-bold">팀이 필요한 역할을 찾아 바로 기여</span>하는 개발자가 되겠습니다.
               </p>
             </div>
-          </div>
-
-          <div
-            className={`grid grid-cols-3 gap-4 md:gap-8 mt-8 lg:mt-16 pt-8 lg:pt-16 border-t border-border/30 transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}
-            style={{ transitionDelay: "0.7s" }}
-          >
-            {[
-              { number: "5+", label: "Years Experience" },
-              { number: "50+", label: "Projects Completed" },
-              { number: "100%", label: "Client Satisfaction" },
-            ].map((stat, i) => (
-              <div
-                key={stat.label}
-                className="text-center transition-all duration-700"
-                style={{ transitionDelay: `${0.8 + i * 0.1}s` }}
-              >
-                <div className="text-2xl md:text-5xl font-bold tracking-tight mb-1 md:mb-2">{stat.number}</div>
-                <div className="text-[10px] md:text-sm text-muted-foreground uppercase tracking-widest">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </div>

@@ -16,7 +16,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "개발자 포트폴리오 | Developer Portfolio",
+  title: "김주희 포트폴리오 | Juhee Portfolio",
   description: "감각적인 디자인과 애니메이션으로 구현된 개발자 포트폴리오",
   generator: "v0.app",
 }

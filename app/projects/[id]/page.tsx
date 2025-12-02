@@ -23,6 +23,10 @@ type ProjectDetail = {
       src: string
       alt: string
     }
+    demoMediaGallery?: {
+      src: string
+      alt: string
+    }[]
   }[]
   teamStructure: {
     area: string
@@ -90,8 +94,8 @@ const projectsData: ProjectDetail[] = [
     id: "apilog",
     title: "APILog",
     description: "서비스 로그를 수집해 AI 리포트와 커스텀 위젯을 자동으로 생성하는 오픈소스 로그 분석 플랫폼",
-    overview:"서비스 로그를 수집해 AI 리포트와 커스텀 위젯을 자동으로 만들어주는 오픈소스 로그 분석 플랫폼입니다.운영자가 직접 쿼리를 짜고 지표를 조합하던 일을, LLM 기반 에이전트가 대신 수행하도록 설계했습니다. '그래서 지금 서비스가 어떤 상태인지, 뭐가 문제인지'를 에이전트가 알려줍니다.",
-    problem:"운영자는 수많은 로그와 대시보드를 가지고 있지만, '그래서 지금 서비스가 어떤 상태인지, 뭐가 문제인지'를 이해하기 위해 매번 수동으로 쿼리를 짜고 지표를 조합해야 했습니다. 이 과정을 에이전트가 대신해 줄 수 없을까?라는 질문에서 APILog를 시작했습니다.",
+    overview:"서비스 로그를 수집해 **AI 리포트**와 **커스텀 위젯**을 자동으로 만들어주는 **오픈소스 로그 분석 플랫폼**입니다.운영자가 직접 쿼리를 짜고 지표를 조합하던 일을, LLM 기반 에이전트가 대신 수행하도록 설계했습니다. '그래서 지금 서비스가 어떤 상태인지, 뭐가 문제인지'를 에이전트가 알려줍니다.",
+    problem:"운영자는 수많은 로그와 대시보드를 가지고 있지만, '그래서 지금 서비스가 어떤 상태인지, 뭐가 문제인지'를 이해하기 위해 **매번 수동으로 쿼리를 짜고 지표를 조합**해야 했습니다. 이 과정을 **에이전트가 대신해 줄 수 없을까?**라는 질문에서 APILog를 시작했습니다.",
     tags: ["Python", "FastAPI", "InfluxDB", "Pydantic", "OpenAI SDK", "Docker", "LLM"],
     image: "/apilog-portlet.gif",
     color: "rgb(59, 130, 246)",
@@ -136,16 +140,16 @@ const projectsData: ProjectDetail[] = [
       {
         title: "AI 리포트 파이프라인 구축 및 응답 신뢰도/성능 향상",
         details: [
-          "InfluxDB 로그를 그대로 LLM에 전달하는 방식이 아닌, FastAPI 라우터를 코드 레벨에서 스캔하고 각 엔드포인트에 자동 요청 → 응답 샘플 수집 → 컨텍스트로 전달하는 파이프라인 구축",
-          "리포트가 항상 동일한 구조로 반환되도록 응답 스키마를 먼저 정의하고, LLM 응답을 해당 스키마 기준으로 파싱 → 파싱 에러율 감소",
-          "일부 필드가 스키마와 다르게 오더라도 전체 실패 대신 해당 항목만 목업 데이터로 보완하는 리포트를 완성하도록 구현",
+          "InfluxDB 로그를 그대로 LLM에 전달하는 방식이 아닌, **FastAPI 라우터를 코드 레벨에서 스캔**하고 각 엔드포인트에 **자동 요청 → 응답 샘플 수집 → 컨텍스트로 전달**하는 파이프라인 구축",
+          "리포트가 항상 **동일한 구조로 반환**되도록 **응답 스키마를 먼저 정의**하고, LLM 응답을 해당 스키마 기준으로 파싱 → **파싱 에러율 감소**",
+          "일부 필드가 스키마와 다르게 오더라도 **전체 실패 대신 해당 항목만 목업 데이터로 보완**하는 리포트를 완성하도록 구현",
         ],
       },
       {
         title: "기본 위젯 개발 및 AI 위젯 생성 기능",
         details: [
           "세션 기반 브라우저 통계 / 페이지별 이탈률 / 인기 페이지 순위 등 기본 분석 위젯 설계·구현",
-          "사용자가 자연어로 원하는 통계 분석 입력 → 내부 DB 스키마와 함께 LLM에 전달 → 필요한 쿼리와 위젯 스펙(지표, 차트 타입, 축 정보 등) 자동 생성 → 대시보드에서 바로 사용 가능하도록 구현",
+          "사용자가 **자연어로 원하는 통계 분석 입력** → 내부 DB 스키마와 함께 LLM에 전달 → **필요한 쿼리와 위젯 스펙(지표, 차트 타입, 축 정보 등) 자동 생성** → 대시보드에서 바로 사용 가능하도록 구현",
         ],
       },
       {
@@ -158,35 +162,35 @@ const projectsData: ProjectDetail[] = [
     ],
     techContext: [
       { tech: "InfluxDB ", context: "로그 분석 특성상 대량의 로그 데이터를 지속적으로 Insert/Select 하는 작업이 빈번하게 발생하기 때문에 시계열 DB로 RDB 대비 압도적인 쓰기 및 조회 성능 제공 " },
-      { tech: "FastAPI ", context: "사용자 로컬 환경에서 실행되어야 하므로 경량화 및 빠른 구동 필수. Java VM 같은 무거운 환경 없이 빠르게 구동 가능" },
-      { tech: "OpenAI SDK", context: " AI위젯/리포트 기능 구현 시 단순 API 호출을 넘어 AI 모모델 출력을 원하는 형태로 튜닝하거나 특정 기능을 적용하기 위해 사용" },
+      { tech: "FastAPI ", context: "사용자 로컬 환경에서 실행되어야 하므로 경량화 및 빠른 구동 필수, Java VM 같은 무거운 환경 없이 빠르게 구동 가능" },
+      { tech: "OpenAI SDK", context: " AI위젯/리포트 기능 구현 시 단순 API 호출을 넘어 AI 모델 출력을 원하는 형태로 튜닝하거나 특정 기능을 적용하기 위해 사용" },
     ],
     challengesAndSolutions: [
       {
         title: "1. 내장 LLM(Ollama) JSON 파싱 길이 반환 문제",
         problem:
-          "로컬 내장 LLM(Ollama)로 AI 리포트 생성 시도 → 양자화 모델에서 긴 JSON 응답이 중간에 잘림 → 응답 형식 불일치로 fallback 함수로 넘어가는 상황 발생",
+          "로컬 내장 LLM(Ollama)로 AI 리포트 생성 시도 → **양자화 모델에서 긴 JSON 응답이 중간에 잘림** → 응답 형식 불일치로 **fallback 함수로 넘어가는 상황** 발생",
         analysis:
-          "AI 리포트는 긴 JSON 응답과 일관된 구조가 필수. Ollama에서 안정적으로 긴 응답을 생성하려면 48GB VRAM 필요 → 일반 개발환경에서 확보 불가능",
+          "AI 리포트는 **긴 JSON 응답과 일관된 구조가 필수**. Ollama에서 안정적으로 긴 응답을 생성하려면 **48GB VRAM 필요** → 일반 개발환경에서 확보 불가능",
         solution:
-          "로컬 LLM 자원 한계로 단순 튜닝으로는 해결 불가 → AI 리포트 생성 엔진을 OpenAI SDK 기반으로 마이그레이션",
+          "로컬 LLM 자원 한계로 단순 튜닝으로는 해결 불가 → **AI 리포트 생성 엔진을 OpenAI SDK 기반으로 마이그레이션**",
         result:
-           "고품질 자연어 응답과 긴 보고서 생성 시 잘림 현상 없이 안정적 반환 확인",
+           "고품질 자연어 응답과 **긴 보고서 생성 시 잘림 현상 없이 안정적 반환** 확인",
       },
       {
         title: "2. AI 리포트 조회 타임아웃 및 CPU 과부하",
         problem:
-          "리포트 생성 요청 시 3분 타임아웃 초과, CPU 100% 점유로 응답 실패 → fallback 로직으로 빠지며 정상 리포트 생성 불가",
+          "리포트 생성 요청 시 **3분 타임아웃 초과**, **CPU 100% 점유**로 응답 실패 → fallback 로직으로 빠지며 정상 리포트 생성 불가",
         analysis:
-          "InfluxDB의 path_raw가 태그가 아닌 필드로 저장 → 페이지별 필터링 시 인덱스 사용 불가 → 전체 스캔 발생. FastAPI 라우터 전체 스캔 후 모든 GET 엔드포인트에 개별 HTTP 요청 → 페이지 수 × 필드 스캔으로 부하 급증",
+          "InfluxDB의 **path_raw가 태그가 아닌 필드로 저장** → 페이지별 필터링 시 **인덱스 사용 불가 → 전체 스캔 발생**. FastAPI 라우터 전체 스캔 후 모든 GET 엔드포인트에 개별 HTTP 요청 → **페이지 수 × 필드** 스캔으로 부하 급증",
         solution:
-          "path_raw를 필드 → 태그로 스키마 변경 → 쿼리당 full scan에서 인덱스 조회로 전환",
+          "**path_raw를 필드 → 태그로** 스키마 변경 → 쿼리당 full scan에서 인덱스 조회로 전환",
         result:
-          "타임아웃 내 정상 응답 반환, CPU 과부하 해결, AI 리포트 생성 정상화",
+          "**타임아웃 내 정상 응답 반환**, **CPU 과부하 해결**, **AI 리포트 생성 정상화**",
       },
     ],
     outcomes: [
-      "SSAFY 프로젝트 우수상(3등) 수상 (2025.11)",
+      "**SSAFY 프로젝트 우수상(3등) 수상** (2025.11)",
       "AI 리포트 파이프라인 구축으로 안정적인 리포트 생성 달성",
       "InfluxDB 스키마 최적화로 타임아웃 및 CPU 과부하 문제 해결",
       "오픈소스 플러그인 아키텍처 설계로 프로젝트 확장성 확보",
@@ -212,8 +216,8 @@ const projectsData: ProjectDetail[] = [
     id: "see-you-letter",
     title: "See you letter",
     description: "음성으로 일상을 기록하면 AI가 감정을 분석해 편지를 만들고, NFT 형태의 디지털 타임캡슐로 선물할 수 있는 서비스",
-    overview:"음성으로 일상을 기록하면 AI가 감정을 분석해 편지를 만들어주고, 이를 NFT 형태의 디지털 타임캡슐로 선물할 수 있는 서비스입니다. '만약 당신이 내일 죽는다면?'이라는 질문에서 시작되었으며, 감정과 기억을 디지털로 보존하고 원하는 시점에 소중한 사람에게 전달할 수 있는 방법을 제시합니다.",
-    problem:"'만약 당신이 내일 죽는다면?'이라는 질문에서 시작했습니다. 감정과 기억을 디지털로 보존하고, 원하는 시점에 소중한 사람에게 전달할 수 있는 방법이 필요했습니다.",
+    overview:"음성으로 일상을 기록하면 AI가 감정을 분석해 편지를 만들어주고, 이를 NFT 형태의 디지털 타임캡슐로 선물할 수 있는 서비스입니다.",
+    problem:"'만약 당신이 내일 죽는다면?'이라는 질문에서 시작했습니다. **감정과 기억을 디지털로 보존**하고, **원하는 시점에 소중한 사람에게 전달**할 수 있는 방법이 필요했습니다.",
     tags: ["Spring Boot", "JPA", "MySQL", "FastAPI", "Docker", "Jenkins", "AWS EC2", "GPT-4.1 Nano", "Claude 3.7 Sonnet", "CosyVoice2", "IPFS", "Ethereum(NFT)"],
     image: "/see_you_letter.png",
     color: "rgb(99, 102, 241)",
@@ -229,7 +233,13 @@ const projectsData: ProjectDetail[] = [
       {
         title: "AI 기반 기록 파이프라인 구축 (35%)",
         percentage: 35,
-        description: "음성 → STT → LLM 분석(감정/키워드) → 편지 생성 파이프라인 설계, Zero-shot 음성 복제 구현",
+        description:
+          "**음성 → STT → LLM 분석(감정/키워드) → 편지 생성** 파이프라인 설계, **Zero-shot 음성 복제** 구현",
+        demoMediaGallery: [
+          { src: "/voice.gif", alt: "See you letter 음성 기록 흐름" },
+          { src: "/retrospect.gif", alt: "See you letter 회고 생성 흐름" },
+          { src: "/letter.gif", alt: "See you letter 편지 생성 화면" },
+        ],
       },
       {
         title: "UI/UX 디자인",
@@ -246,19 +256,19 @@ const projectsData: ProjectDetail[] = [
       {
         title: "인프라 구축 및 배포 자동화",
         details: [
-          "Docker 기반 서비스 컨테이너화로 환경 일관성 확보",
+          "Docker 기반 서비스 컨테이너화로 환경 **일관성 확보**",
           "Jenkins 5단계 파이프라인 구성: Source → Build → Test → Dockerize → Deploy",
-          "배포 시간 15분 → 3분 단축 (80% 개선)",
+          "**배포 시간 15분 → 3분 단축 (80% 개선)**",
         ],
       },
       {
         title: "AI 기반 지능형 기록 파이프라인 구축",
         details: [
-          "기능별 LLM 모델 분리로 응답 지연 개선",
+          "**기능별 LLM 모델 분리**로 응답 지연 개선",
           "키워드/감정 분석 + 질문 생성: GPT-4.1 Nano (빠른 응답)",
           "감성 편지 생성: Claude 3.7 Sonnet (고품질 글쓰기)",
-          "음성 입력 → STT → 감정/키워드 추출 → 맞춤형 질문 및 편지 생성 LLM 프롬프트 엔지니어링 설계",
-          "CosyVoice2 기반 Zero-shot 음성 복제 구현 (10~30초 샘플로 목소리 편지 생성)",
+          "**음성 입력 → STT → 감정/키워드 추출 → 맞춤형 질문 및 편지 생성** LLM 프롬프트 엔지니어링 설계",
+          "**CosyVoice2 기반 Zero-shot 음성 복제** 구현 (10~30초 샘플로 목소리 편지 생성)",
         ],
       },
       {
@@ -271,7 +281,7 @@ const projectsData: ProjectDetail[] = [
     ],
     techContext: [
       { tech: "NFT + IPFS", context: "편지/음성의 영속성 보장을 위해 블록체인에 영구 보존. 실제 콘텐츠는 대칭키 암호화 후 IPFS에 저장하여 공개 환경에서도 노출 방지" },
-      { tech: "CosyVoice2 ", context: "한국어 억양/톤 재현 품질이 가장 우수. 별도 학습 없이 10~3-초 샘플만으로 Zero-shot 음성 복제 가능" },
+      { tech: "CosyVoice2 ", context: "한국어 억양/톤 재현 품질이 가장 우수. 별도 학습 없이 10~30초 샘플만으로 Zero-shot 음성 복제 가능" },
       { tech: "STT/TTS", context: " Whisper API로 음성 → 텍스트 변환 및 핵심 내용 요약 → GPT-4o mini TTS로 맞춤 회고 질문을 통화형식으로 제공 → CosyVoice2로 사용자 음성 복제하여 목소리 편지 생성" },
     ],
     challengesAndSolutions: [
@@ -279,16 +289,16 @@ const projectsData: ProjectDetail[] = [
         title: "1. 편지 생성 품질 저하 및 응답 속도 문제",
         problem: "모든 회고고 데이터를 LLM에 주입 → 기계적인 ‘일간 회고 총정리’ 수준의 편지 생성. 응답시간 44초 소요",
         solution: "프롬프트 엔지니어링으로 LLM 역할 재정의(”진심이 담긴 편지를 작성하는 전문가”), 전체 회고 중 핵심 에피소드만 선택하여 편지 소재로 사용하고 나머지는 맥락 파악용으로 활용하도록 명시",
-        result: "API 응답 시간 44초 → 15초(66% 개선), 에피소드 나열식 → 핵심 감정에 집중한 진정성 있는 편지로 품질 향상",
+        result: "**API 응답 시간 44초 → 15초(66% 개선)**, 에피소드 나열식 → 핵심 감정에 집중한 진정성 있는 편지로 품질 향상",
       },
       {
         title: "2. 음성 복제 품질 및 비용 문제",
-        problem: "GPU 학습 방식은 사용자마다 모델 학습 필요 → 서비스 비용 과다, 학습 시간 30~1시간 소요, 유사도 기대 미달",
-        solution: "Zero-Shot TTS 방식으로 전환, 여러 모델 테스트 후 한국어 억양과 톤이 가장 자연스러운 CosyVoice2 선택",
-        result: " 대기 시간 30분 ~ 1시간 → 15초로  줄이고 10초~30초 샘플만으로 자연스러운 목소리 구현 → 즉각적인 서비스 제공 ",
+        problem: "**GPU 학습 방식**은 사용자마다 모델 학습 필요 → **서비스 비용 과다**, **학습 시간 30~1시간 소요**, **유사도 기대 미달**",
+        solution: "**Zero-Shot TTS 방식으로 전환**, 여러 모델 테스트 후 한국어 억양과 톤이 가장 자연스러운 CosyVoice2 선택",
+        result: "**대기 시간 30분 ~ 1시간 → 15초로 단축**하고 10초~30초 샘플만으로 자연스러운 목소리 구현 → 즉각적인 서비스 제공 ",
       },
     ],
-    outcomes: ["SSAFY 자율 프로젝트 우수상(2등) 수상 (2025.10)", "편지 생성 API 응답 속도 66% 개선 (44초 → 15초)", "음성 복제 대기 시간 99% 단축 (30분~1시간 → 15초)", "배포 시간 80% 단축 (15분 → 3분)"],
+    outcomes: ["**SSAFY 자율 프로젝트 우수상(2등) 수상** (2025.10)", "편지 생성 API 응답 속도 66% 개선 (44초 → 15초)", "음성 복제 대기 시간 99% 단축 (30분~1시간 → 15초)", "배포 시간 80% 단축 (15분 → 3분)"],
     learned: {
       drawback:
         "음성·텍스트 데이터를 단일 모델에 몰아넣어 편지 품질이 밋밋했고 응답 속도도 느렸습니다. 또한 음성 복제를 GPU 학습으로 접근해 비용과 시간이 크게 소모됐습니다.",
@@ -313,8 +323,8 @@ const projectsData: ProjectDetail[] = [
     id: "ymhn",
     title: "예매했냥",
     description: "예매 일정 놓침 방지와 예매 내역 관리, 관극 일정 관리까지 지원하는 All-in-One 공연 일정 플랫폼",
-    overview:"예매 일정 놓침 방지와 예매 내역 관리, 관극 일정 관리까지 지원하는 All-in-One 공연 일정 플랫폼입니다. 파편화된 공연/뮤지컬 정보로 인해 불편함을 겪고 있는 2030 여성들을 타겟으로 개발했습니다.",
-    problem:"파편화된 공연/뮤지컬 정보로 인해 불편함을 겪고 있는 2030 여성들이 많았습니다. 공연 정보 서비스를 제한된 시간 내에 완성도 있게 구축해야 했고, 이미지 리소스 처리로 인한 성능 문제가 주요 과제였습니다.",
+    overview:"예매 일정 놓침 방지와 예매 내역 관리, 관극 일정 관리까지 지원하는 **All-in-One 공연 일정 플랫폼**입니다. 파편화된 공연/뮤지컬 정보로 인해 불편함을 겪고 있는 **2030 여성들을 타겟**으로 개발했습니다.",
+    problem:"**파편화된 공연/뮤지컬 정보**로 인해 불편함을 겪고 있는 2030 여성들이 많았습니다. 공연 정보 서비스를 **제한된 시간 내에 완성도 있게 구축**해야 했고, **이미지 리소스 처리로 인한 성능 문제**가 주요 과제였습니다.",
     image: "/ymhn.png",
     tags: ["Spring Boot", "JPA", "MySQL", "Redis", "MinIO", "Firebase FCM", "Jenkins", "Docker", "AWS EC2"],
     color: "rgb(139, 92, 246)",
@@ -348,7 +358,7 @@ const projectsData: ProjectDetail[] = [
         title: "JWT 기반 보안 인증 시스템 구축",
         details: [
           "Access Token + Refresh Token 분리 발급 로직 설계",
-          "Stateless 인증 환경 구축으로 서버 세션 저장소 부하 감소",
+          "**Stateless 인증 환경 구축**으로 서버 세션 저장소 부하 감소",
           "토큰 탈취 위험 최소화",
         ],
       },
@@ -356,7 +366,7 @@ const projectsData: ProjectDetail[] = [
         title: "Object Storage(MinIO) 도입으로 이미지 렌더링 성능 70% 개선",
         details: [
           "외부 URL 의존성 제거 → 자체 서버로 Migration",
-          "이미지 렌더링 시간 **11.4초 → 3.4초** 단축",
+          "**이미지 렌더링 시간 11.4초 → 3.4초 단축**",
         ],
       },
       {
@@ -376,19 +386,19 @@ const projectsData: ProjectDetail[] = [
       {
         title: "1. JPA Fetch Join 페이지네이션 Count 쿼리 중복 계산 문제",
         problem: "선호 공연 목록 조회 시 실제 10개 데이터가 40개(4페이지)로 잘못 계산",
-        analysis:"1:N 관계 컬렉션을 LEFT JOIN FETCH하면 부모 엔티티가 자식 수만큼 중복 조회 → JPA 자동 Count 쿼리가 중복 행을 모두 합산",
+        analysis:"1:N 관계 컬렉션을 LEFT JOIN FETCH하면 부모 엔티티가 자식 수만큼 중복 조회 → **JPA 자동 Count 쿼리가 중복 행을 모두 합산**",
         solution: "데이터 조회와 개수 계산 로직 분리, 공연 ID만 카운팅하는 별도 쿼리 작성",
-        result: "데이터 로딩 시 Fetch Join은 유지하면서 N+1 문제 해결하고 페이지네이션 정합성 확보",
+        result: "데이터 로딩 시 **Fetch Join은 유지하면서 N+1 문제 해결**하고 페이지네이션 정합성 확보",
       },
       {
         title: "2. 대용량 이미지 리소스 처리 성능 문제",
-        problem: "공연 서비스 특성상 이미지가 많았고, 외부 URL 순차적 요청으로 평균 11초 네트워크 지연 발생, 사용자 이탈 유발 가능성",
-        solution: "MinIO 도입으로 이미지 서비스 책임 분리, 클라이언트에게 직접 전송하는 구조로 변경. 추가 최적화: JPG/GIF → WEBP 변환 + 120×160 리사이징으로 용량 95.6% 감소",
-        result: "로딩 시간 11.4초 → 3.4초 (70% 개선)",
+        problem: "공연 서비스 특성상 이미지가 많았고, 외부 URL 순차적 요청으로 **평균 11초 네트워크 지연** 발생, 사용자 이탈 유발 가능성",
+        solution: "**MinIO 도입**으로 이미지 서비스 책임 분리, 클라이언트에게 **직접 전송**하는 구조로 변경. 추가 최적화: JPG/GIF → WEBP 변환 + 120×160 리사이징으로 용량 95.6% 감소",
+        result: "**로딩 시간 11.4초 → 3.4초 (70% 개선)**",
       },
     ],
     outcomes: [
-      "SSAFY 공통 프로젝트 우수상(3등) 수상 (2025.08)",
+      "**SSAFY 공통 프로젝트 우수상(3등) 수상** (2025.08)",
       "이미지 렌더링 성능 70% 개선 (11.4초 → 3.4초)",
       "이미지 용량 90% 감소 (WEBP 변환 + 리사이징)",
     ],
@@ -420,10 +430,30 @@ export default function ProjectDetailPage() {
   const [project, setProject] = useState<ProjectDetail | null>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [expandedContribution, setExpandedContribution] = useState<string | null>(null)
+  const [galleryIndexes, setGalleryIndexes] = useState<Record<string, number>>({})
   const contentRef = useRef<HTMLDivElement>(null)
 
-  const toggleContribution = (title: string) => {
+  const toggleContribution = (title: string, hasGallery?: boolean) => {
     setExpandedContribution((prev) => (prev === title ? null : title))
+    if (hasGallery) {
+      setGalleryIndexes((prev) => ({
+        ...prev,
+        [title]: prev[title] ?? 0,
+      }))
+    }
+  }
+
+  const handleGalleryNav = (title: string, direction: "prev" | "next", length: number) => {
+    if (length <= 1) return
+    setGalleryIndexes((prev) => {
+      const current = prev[title] ?? 0
+      const offset = direction === "next" ? 1 : -1
+      const nextIndex = (current + offset + length) % length
+      return {
+        ...prev,
+        [title]: nextIndex,
+      }
+    })
   }
 
   useEffect(() => {
@@ -582,7 +612,12 @@ export default function ProjectDetailPage() {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-6">Overview</h2>
           <p className="text-base leading-relaxed text-foreground/90" style={{ lineHeight: "1.8" }}>
-            {project.overview}
+            {project.overview.split(/(\*\*.*?\*\*)/g).map((part, idx) => {
+              if (part.startsWith('**') && part.endsWith('**')) {
+                return <strong key={idx}>{part.slice(2, -2)}</strong>
+              }
+              return <span key={idx}>{part}</span>
+            })}
           </p>
         </div>
       </section>
@@ -592,7 +627,12 @@ export default function ProjectDetailPage() {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-6">Problem</h2>
           <p className="text-base leading-relaxed text-foreground/90" style={{ lineHeight: "1.8" }}>
-            {project.problem}
+            {project.problem.split(/(\*\*.*?\*\*)/g).map((part, idx) => {
+              if (part.startsWith('**') && part.endsWith('**')) {
+                return <strong key={idx}>{part.slice(2, -2)}</strong>
+              }
+              return <span key={idx}>{part}</span>
+            })}
           </p>
         </div>
       </section>
@@ -643,76 +683,162 @@ export default function ProjectDetailPage() {
           <div className="mb-8">
             <h3 className="text-2xl font-bold mb-6">개인 기여도</h3>
             <div className="space-y-6">
-              {project.myContributions.map((contribution, index) => (
-                <div key={index}>
-                  <div className="flex flex-col gap-3 mb-3">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (contribution.demoMedia) {
-                          toggleContribution(contribution.title)
+              {project.myContributions.map((contribution, index) => {
+                const hasGallery = Boolean(contribution.demoMediaGallery?.length)
+                const hasMedia = Boolean(contribution.demoMedia || hasGallery)
+                const currentGalleryIndex = galleryIndexes[contribution.title] ?? 0
+
+                return (
+                  <div key={index}>
+                    <div className="flex flex-col gap-3 mb-3">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (hasMedia) {
+                            toggleContribution(contribution.title, hasGallery)
+                          }
+                        }}
+                        className={`flex flex-wrap items-center justify-between gap-3 w-full text-left ${
+                          hasMedia ? "cursor-pointer" : ""
+                        }`}
+                        aria-expanded={
+                          hasMedia ? expandedContribution === contribution.title : undefined
                         }
-                      }}
-                      className={`flex flex-wrap items-center justify-between gap-3 w-full text-left ${
-                        contribution.demoMedia ? "cursor-pointer" : ""
-                      }`}
-                      aria-expanded={
-                        contribution.demoMedia
-                          ? expandedContribution === contribution.title
-                          : undefined
-                      }
-                    >
-                      <div className="flex flex-wrap items-center gap-2">
-                        <h4 className="text-xl font-bold">{contribution.title}</h4>
-                        {contribution.demoMedia && (
-                          <span
-                            className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-semibold transition-colors ${
-                              expandedContribution === contribution.title
-                                ? "bg-primary text-primary-foreground border-primary"
-                                : "border-border text-foreground/80 bg-background"
-                            }`}
-                          >
-                            이미지 보기
-                            <svg
-                              width="14"
-                              height="14"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              className={`transition-transform duration-300 ${
-                                expandedContribution === contribution.title ? "rotate-180" : ""
+                      >
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h4 className="text-xl font-bold">{contribution.title}</h4>
+                          {hasMedia && (
+                            <span
+                              className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-semibold transition-colors ${
+                                expandedContribution === contribution.title
+                                  ? "bg-primary text-primary-foreground border-primary"
+                                  : "border-border text-foreground/80 bg-background"
                               }`}
                             >
-                              <path d="M6 9l6 6 6-6" />
-                            </svg>
-                          </span>
-                        )}
+                              이미지 보기
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                className={`transition-transform duration-300 ${
+                                  expandedContribution === contribution.title ? "rotate-180" : ""
+                                }`}
+                              >
+                                <path d="M6 9l6 6 6-6" />
+                              </svg>
+                            </span>
+                          )}
+                        </div>
+                        <span className="text-sm font-semibold text-primary flex-shrink-0">
+                          ({contribution.percentage}%)
+                        </span>
+                      </button>
+                      <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+                        <div
+                          className="bg-primary h-full rounded-full transition-all duration-500"
+                          style={{ width: `${contribution.percentage}%` }}
+                        />
                       </div>
-                      <span className="text-sm font-semibold text-primary flex-shrink-0">
-                        ({contribution.percentage}%)
-                      </span>
-                    </button>
-                    <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
-                      <div
-                        className="bg-primary h-full rounded-full transition-all duration-500"
-                        style={{ width: `${contribution.percentage}%` }}
-                      />
                     </div>
-                  </div>
 
-                  <p className="text-base text-foreground/80 leading-relaxed">{contribution.description}</p>
-                  {contribution.demoMedia && expandedContribution === contribution.title && (
+                    <p className="text-base text-foreground/80 leading-relaxed">
+                      {contribution.description.split(/(\*\*.*?\*\*)/g).map((part, idx) => {
+                        if (part.startsWith("**") && part.endsWith("**")) {
+                          return <strong key={idx}>{part.slice(2, -2)}</strong>
+                        }
+                        return <span key={idx}>{part}</span>
+                      })}
+                    </p>
+                    {contribution.demoMedia && expandedContribution === contribution.title && (
                       <div className="mt-4 rounded-xl border border-border bg-muted/30 overflow-hidden">
                         <img
-                        src={contribution.demoMedia.src}
-                        alt={contribution.demoMedia.alt}
+                          src={contribution.demoMedia.src}
+                          alt={contribution.demoMedia.alt}
                           className="w-full h-auto object-cover"
                         />
                       </div>
                     )}
-                </div>
-              ))}
+                    {hasGallery && expandedContribution === contribution.title && (
+                      <div className="mt-4 rounded-2xl border border-border bg-muted/30 overflow-hidden">
+                        <div className="relative">
+                          <img
+                            src={contribution.demoMediaGallery?.[currentGalleryIndex]?.src}
+                            alt={contribution.demoMediaGallery?.[currentGalleryIndex]?.alt}
+                            className="w-full h-auto object-cover"
+                          />
+                          <button
+                            type="button"
+                            className="absolute left-3 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm border border-border rounded-full w-10 h-10 flex items-center justify-center hover:bg-background transition-colors"
+                            onClick={() =>
+                              handleGalleryNav(
+                                contribution.title,
+                                "prev",
+                                contribution.demoMediaGallery?.length || 0,
+                              )
+                            }
+                            aria-label="이전 이미지"
+                          >
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                            >
+                              <path d="M15 18l-6-6 6-6" />
+                            </svg>
+                          </button>
+                          <button
+                            type="button"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm border border-border rounded-full w-10 h-10 flex items-center justify-center hover:bg-background transition-colors"
+                            onClick={() =>
+                              handleGalleryNav(
+                                contribution.title,
+                                "next",
+                                contribution.demoMediaGallery?.length || 0,
+                              )
+                            }
+                            aria-label="다음 이미지"
+                          >
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                            >
+                              <path d="M9 6l6 6-6 6" />
+                            </svg>
+                          </button>
+                        </div>
+                        <div className="flex justify-center gap-2 py-3">
+                          {contribution.demoMediaGallery?.map((_, dotIdx) => (
+                            <button
+                              key={dotIdx}
+                              type="button"
+                              className={`h-2 w-2 rounded-full transition-colors ${
+                                currentGalleryIndex === dotIdx ? "bg-foreground" : "bg-foreground/30"
+                              }`}
+                              onClick={() =>
+                                setGalleryIndexes((prev) => ({
+                                  ...prev,
+                                  [contribution.title]: dotIdx,
+                                }))
+                              }
+                              aria-label={`${dotIdx + 1}번째 이미지 보기`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           </div>
 
@@ -752,7 +878,12 @@ export default function ProjectDetailPage() {
                           />
                         </svg>
                         <p className="text-base leading-relaxed flex-1" style={{ lineHeight: "1.75" }}>
-                          {detail}
+                          {detail.split(/(\*\*.*?\*\*)/g).map((part, partIdx) => {
+                            if (part.startsWith('**') && part.endsWith('**')) {
+                              return <strong key={partIdx}>{part.slice(2, -2)}</strong>
+                            }
+                            return <span key={partIdx}>{part}</span>
+                          })}
                         </p>
                       </div>
                     ))}
@@ -767,14 +898,25 @@ export default function ProjectDetailPage() {
             <h3 className="text-2xl font-bold mb-4">사용 기술 / 적용 맥락</h3>
             <div className="space-y-4">
               {project.techContext.map((item, i) => (
-                <div key={i} className="p-4 rounded-lg border border-border bg-muted/30">
-                  <h4 className="font-bold text-base mb-1" style={{ color: project.color }}>
-                    {item.tech}
-                  </h4>
-                  <div className="space-y-2 text-base leading-relaxed" style={{ lineHeight: "1.8" }}>
-                    {splitIntoParagraphs(item.context).map((paragraph, idx) => (
-                      <p key={idx}>{paragraph}</p>
-                    ))}
+                <div key={i} className="px-6 py-4 rounded-lg border border-border bg-muted/30">
+                  <div className="space-y-2 text-base leading-relaxed px-2" style={{ lineHeight: "1.8" }}>
+                    <h4 className="font-bold text-base mb-1" style={{ color: project.color }}>
+                      {item.tech}
+                    </h4>
+                    {splitIntoParagraphs(item.context).map((paragraph, idx) => {
+                      // **로 감싸진 부분을 bold 처리
+                      const parts = paragraph.split(/(\*\*.*?\*\*)/g)
+                      return (
+                        <p key={idx}>
+                          {parts.map((part, partIdx) => {
+                            if (part.startsWith('**') && part.endsWith('**')) {
+                              return <strong key={partIdx}>{part.slice(2, -2)}</strong>
+                            }
+                            return <span key={partIdx}>{part}</span>
+                          })}
+                        </p>
+                      )
+                    })}
                   </div>
                 </div>
               ))}
@@ -804,7 +946,12 @@ export default function ProjectDetailPage() {
                         Problem
                       </div>
                       <p className="text-base leading-relaxed text-gray-700 ml-2" style={{ lineHeight: "1.9" }}>
-                        {item.problem}
+                        {item.problem.split(/(\*\*.*?\*\*)/g).map((part, idx) => {
+                          if (part.startsWith('**') && part.endsWith('**')) {
+                            return <strong key={idx}>{part.slice(2, -2)}</strong>
+                          }
+                          return <span key={idx}>{part}</span>
+                        })}
                       </p>
                     </div>
                   )}
@@ -816,7 +963,12 @@ export default function ProjectDetailPage() {
                         Cause
                       </div>
                       <p className="text-base leading-relaxed text-gray-700 ml-2" style={{ lineHeight: "1.9" }}>
-                        {item.analysis}
+                        {item.analysis.split(/(\*\*.*?\*\*)/g).map((part, idx) => {
+                          if (part.startsWith('**') && part.endsWith('**')) {
+                            return <strong key={idx}>{part.slice(2, -2)}</strong>
+                          }
+                          return <span key={idx}>{part}</span>
+                        })}
                       </p>
                     </div>
                   )}
@@ -828,7 +980,12 @@ export default function ProjectDetailPage() {
                         Solution
                       </div>
                       <p className="text-base leading-relaxed text-gray-700 ml-2" style={{ lineHeight: "1.9" }}>
-                        {item.solution}
+                        {item.solution.split(/(\*\*.*?\*\*)/g).map((part, idx) => {
+                          if (part.startsWith('**') && part.endsWith('**')) {
+                            return <strong key={idx}>{part.slice(2, -2)}</strong>
+                          }
+                          return <span key={idx}>{part}</span>
+                        })}
                       </p>
                     </div>
                   )}
@@ -840,7 +997,12 @@ export default function ProjectDetailPage() {
                         Result
                       </div>
                       <p className="text-base leading-relaxed text-gray-700 ml-2" style={{ lineHeight: "1.9" }}>
-                        {item.result}
+                        {item.result.split(/(\*\*.*?\*\*)/g).map((part, idx) => {
+                          if (part.startsWith('**') && part.endsWith('**')) {
+                            return <strong key={idx}>{part.slice(2, -2)}</strong>
+                          }
+                          return <span key={idx}>{part}</span>
+                        })}
                       </p>
                     </div>
                   )}
@@ -868,7 +1030,12 @@ export default function ProjectDetailPage() {
                   {getOutcomeIcon(outcome, i)}
                 </div>
                 <p className="text-base font-medium text-foreground whitespace-nowrap">
-                  {outcome}
+                  {outcome.split(/(\*\*.*?\*\*)/g).map((part, idx) => {
+                    if (part.startsWith('**') && part.endsWith('**')) {
+                      return <strong key={idx}>{part.slice(2, -2)}</strong>
+                    }
+                    return <span key={idx}>{part}</span>
+                  })}
                 </p>
               </div>
             ))}
@@ -886,7 +1053,12 @@ export default function ProjectDetailPage() {
                 <span>아쉬웠던 부분</span>
               </div>
               <p className="text-base leading-relaxed text-foreground/90" style={{ lineHeight: "1.8" }}>
-                {project.learned.drawback}
+                {project.learned.drawback.split(/(\*\*.*?\*\*)/g).map((part, idx) => {
+                  if (part.startsWith('**') && part.endsWith('**')) {
+                    return <strong key={idx}>{part.slice(2, -2)}</strong>
+                  }
+                  return <span key={idx}>{part}</span>
+                })}
               </p>
             </div>
             <div className="p-5 rounded-xl border border-border bg-muted/30">
@@ -894,7 +1066,12 @@ export default function ProjectDetailPage() {
                 <span>깨달은 점</span>
               </div>
               <p className="text-base leading-relaxed text-foreground/90" style={{ lineHeight: "1.8" }}>
-                {project.learned.insight}
+                {project.learned.insight.split(/(\*\*.*?\*\*)/g).map((part, idx) => {
+                  if (part.startsWith('**') && part.endsWith('**')) {
+                    return <strong key={idx}>{part.slice(2, -2)}</strong>
+                  }
+                  return <span key={idx}>{part}</span>
+                })}
               </p>
             </div>
           </div>

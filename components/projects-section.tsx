@@ -292,7 +292,7 @@ export function ProjectsSection() {
                 <div className="flex items-start justify-between gap-2">
                   <div>
                     <h3 className="text-base md:text-lg lg:text-xl font-bold tracking-tight mb-0.5">{project.title}</h3>
-                    <p className="text-[10px] md:text-xs text-muted-foreground leading-relaxed line-clamp-1">
+                    <p className="text-xs md:text-sm text-muted-foreground leading-relaxed line-clamp-1">
                       {project.description}
                     </p>
                   </div>

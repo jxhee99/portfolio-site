@@ -108,7 +108,7 @@ const projectsData: ProjectDetail[] = [
         percentage: 100,
         description: "FastAPI 라우터 스캔 → 응답 샘플 수집 → LLM 컨텍스트 전달 → 리포트 생성 파이프라인 설계",
         demoMedia: {
-          src: "/widget-slide.gif",
+          src: "/ai-report.gif",
           alt: "AI 리포트 파이프라인 흐름",
         },
       },
@@ -963,7 +963,7 @@ export default function ProjectDetailPage() {
                   )}
 
                   {/* Cause */}
-                  {item.analysis && (
+                  {/* {item.analysis && (
                     <div className="space-y-2">
                       <div className="inline-block px-4 py-1.5 rounded-md bg-orange-100 text-orange-700 text-sm font-semibold">
                         Cause
@@ -976,6 +976,20 @@ export default function ProjectDetailPage() {
                           return <span key={idx}>{part}</span>
                         })}
                       </p>
+                    </div>
+                  )} */}
+                  {item.analysis && (
+                    <div className="space-y-2">
+                      <div className="inline-block px-4 py-1.5 rounded-md bg-orange-100 text-orange-700 text-sm font-semibold">
+                        Cause
+                      </div>
+                      <div className="text-base leading-relaxed text-gray-700 ml-2" style={{ lineHeight: "1.9" }}>
+                        {item.analysis
+                          .split(/(?<=\.)\s+/) // 마침표 뒤 공백 기준으로 분리
+                          .map((sentence, idx) => (
+                            <p key={idx}>{sentence}</p>
+                          ))}
+                      </div>
                     </div>
                   )}
 

@@ -46,7 +46,7 @@ const projects = [
     title: "APILog",
     description: "서비스 로그를 수집해 AI 리포트와 커스텀 위젯을 자동으로 생성하는 오픈소스 로그 분석 플랫폼",
     tags: ["Python", "FastAPI", "InfluxDB", "Pydantic", "OpenAI SDK", "Docker", "LLM"],
-    image: "/apilog-logo.png",
+    image: "/opensource.png",
     color: "rgb(59, 130, 246)",
   },
   {

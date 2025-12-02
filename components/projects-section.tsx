@@ -48,6 +48,7 @@ const projects = [
     tags: ["Python", "FastAPI", "InfluxDB", "Pydantic", "OpenAI SDK", "Docker", "LLM"],
     image: "/opensource.png",
     color: "rgb(59, 130, 246)",
+    githubUrl: "https://github.com/APIL0g/APILog",
   },
   {
     id: "see-you-letter",
@@ -56,14 +57,16 @@ const projects = [
     tags: ["Spring Boot", "JPA", "MySQL", "FastAPI", "Docker", "Jenkins", "AWS EC2", "IPFS", "Ethereum(NFT)"],
     image: "/see_you_letter.png",
     color: "rgb(99, 102, 241)",
+    githubUrl: "https://github.com/SeeY0uLetter/SeeYouLetter",
   },
   {
     id: "ymhn",
     title: "예매했냥",
     description: "인터랙티브 데이터 시각화 대시보드. 실시간 차트와 애니메이션으로 데이터 표현",
-    tags:["Spring Boot", "JPA", "MySQL", "Redis", "MinIO", "Firebase FCM", "Jenkins", "Docker", "AWS EC2"],
+    tags: ["Spring Boot", "JPA", "MySQL", "Redis", "MinIO", "Firebase FCM", "Jenkins", "Docker", "AWS EC2"],
     image: "/ymhn.png",
     color: "rgb(139, 92, 246)",
+    githubUrl: "https://github.com/jxhee99/YMHN",
   },
 ]
 
@@ -270,7 +273,13 @@ export function ProjectsSection() {
                     </button>
                     <button
                       className="flex items-center justify-center gap-2 px-4 md:px-5 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-medium border border-white/30 text-white hover:bg-white/10 transition-all duration-300"
-                      onClick={(e) => e.stopPropagation()}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        const url = project.githubUrl
+                        if (url) {
+                          window.open(url, "_blank", "noopener,noreferrer")
+                        }
+                      }}
                     >
                       <GithubIcon />
                       <span>Code</span>

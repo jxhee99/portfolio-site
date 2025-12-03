@@ -62,7 +62,7 @@ const projects = [
   {
     id: "ymhn",
     title: "예매했냥",
-    description: "인터랙티브 데이터 시각화 대시보드. 실시간 차트와 애니메이션으로 데이터 표현",
+    description: "예매 일정 놓침 방지와 예매 내역 관리, 관극 일정 관리까지 지원하는 All-in-One 공연 일정 플랫폼",
     tags: ["Spring Boot", "JPA", "MySQL", "Redis", "MinIO", "Firebase FCM", "Jenkins", "Docker", "AWS EC2"],
     image: "/ymhn.png",
     color: "rgb(139, 92, 246)",

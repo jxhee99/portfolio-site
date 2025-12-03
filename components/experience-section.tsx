@@ -34,18 +34,13 @@ export function ExperienceSection() {
       period: "2020.06 - 2022.02",
       description: "웹 서비스 설계부터 배포까지 전체 개발 프로세스 담당",
     },
-    {
-      company: "Agency C",
-      role: "Frontend Developer",
-      period: "2019.03 - 2020.05",
-      description: "다양한 클라이언트 프로젝트의 프론트엔드 개발",
-    },
   ]
 
   const achievements = [
-    { type: "certification", name: "AWS Certified Solutions Architect", year: "2023" },
-    { type: "certification", name: "Google Cloud Professional Developer", year: "2022" },
-    { type: "certification", name: "정보처리기사", year: "2021" },
+    { type: "certification", name: "정보처리기사", year: "2023.11" },
+    { type: "certification", name: "SQLD", year: "2024.06" },
+    { type: "certification", name: "리눅스마스터 2급", year: "2023.03" },
+    { type: "certification", name: "컴퓨터활용능력 1급", year: "2022.02" },
     { type: "award", name: "Best Web Developer Award", organization: "Tech Conference 2023", year: "2023" },
     { type: "award", name: "Hackathon 1st Place", organization: "Startup Weekend", year: "2022" },
     { type: "award", name: "Innovation Award", organization: "University Competition", year: "2021" },

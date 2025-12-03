@@ -161,7 +161,7 @@ export function HeroSection() {
                       : "none",
                   }}
                 >
-                  Curiosity
+                  Curious 
                 </span>
               </span>
               <span className="block overflow-hidden mt-2">

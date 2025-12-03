@@ -41,9 +41,9 @@ export function ExperienceSection() {
     { type: "certification", name: "SQLD", year: "2024.06" },
     { type: "certification", name: "리눅스마스터 2급", year: "2023.03" },
     { type: "certification", name: "컴퓨터활용능력 1급", year: "2022.02" },
-    { type: "award", name: "Best Web Developer Award", organization: "Tech Conference 2023", year: "2023" },
-    { type: "award", name: "Hackathon 1st Place", organization: "Startup Weekend", year: "2022" },
-    { type: "award", name: "Innovation Award", organization: "University Competition", year: "2021" },
+    { type: "award", name: "SSAFY 자율 프로젝트 우수상 (3등)", organization: "APILog", year: "2024.11" },
+    { type: "award", name: "SSAFY 특화 프로젝트 우수상 (2등)", organization: "See you letter", year: "2024.10" },
+    { type: "award", name: "SSAFY 공통 프로젝트 우수상 (3등)", organization: "예매했냥", year: "2024.08" },
   ]
 
   const certifications = achievements.filter((item) => item.type === "certification")
@@ -128,7 +128,7 @@ export function ExperienceSection() {
                     style={{ transitionDelay: `${0.5 + i * 0.1}s` }}
                   >
                     <h3 className="text-base lg:text-lg font-semibold mb-1">{award.name}</h3>
-                    <p className="text-xs lg:text-sm text-muted-foreground">{award.organization}</p>
+                    <p className="text-sm md:text-base text-muted-foreground">{award.organization}</p>
                     <p className="text-xs lg:text-sm text-muted-foreground">{award.year}</p>
                   </div>
                 ))}

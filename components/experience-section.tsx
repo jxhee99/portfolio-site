@@ -80,7 +80,7 @@ export function ExperienceSection() {
                     </div>
                     <span className="text-sm lg:text-base text-muted-foreground mt-2 md:mt-0">{exp.period}</span>
                   </div>
-                  <p className="text-sm lg:text-base text-muted-foreground leading-relaxed">{exp.description}</p>
+                  {/* <p className="text-sm lg:text-base text-muted-foreground leading-relaxed">{exp.description}</p> */}
                 </div>
               ))}
             </div>

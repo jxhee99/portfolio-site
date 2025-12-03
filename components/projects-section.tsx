@@ -53,7 +53,7 @@ const projects = [
   {
     id: "see-you-letter",
     title: "See you letter",
-    description: "음성으로 일상을 기록하면 AI가 감정을 분석해 편지를 만들고, NFT 형태의 디지털 타임캡슐로 선물할 수 있는 서비스",
+    description: "음성으로 일상을 기록하면 AI가 감정을 분석해 편지를 만들고, NFT 디지털 타임캡슐로 선물할 수 있는 서비스",
     tags: ["Spring Boot", "JPA", "MySQL", "FastAPI", "Docker", "Jenkins", "AWS EC2", "IPFS", "Ethereum(NFT)"],
     image: "/see_you_letter.png",
     color: "rgb(99, 102, 241)",

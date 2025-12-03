@@ -378,7 +378,7 @@ const projectsData: ProjectDetail[] = [
       },
     ],
     techContext: [
-      { tech: "MinIO", context: "외부 URL 호출 시 서버 장애 의존성, Rate Limit 제약, 11.4초 로딩 지연 문제 → 내부 Object Storage로 Migration하여 안정성 확보 및 70% 성능 개선" },
+      { tech: "MinIO", context: "외부 URL 호출 시 외부 서버 의존성 문제, 11.4초 로딩 지연 문제 → 내부 Object Storage로 Migration하여 안정성 확보 및 70% 성능 개선" },
       { tech: "Firebase FCM", context: "Polling 방식의 불필요한 HTTP 요청 제거, 이벤트 기반 실시간 알림 보장"},
       { tech: "Redis", context: "디바이스 토큰을 memberId와 매핑하여 불필요한 RDB 호출을 줄이고 지연 없는 알림 환경 구축"},
     ],

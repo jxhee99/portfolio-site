@@ -23,16 +23,16 @@ export function ExperienceSection() {
 
   const experiences = [
     {
-      company: "Tech Company A",
-      role: "Senior Frontend Developer",
-      period: "2022.03 - Present",
-      description: "Next.js와 React를 활용한 대규모 프로젝트 개발 및 팀 리딩",
+      company: "SW•AI 개발 교육",
+      role: "삼성 청년 SW•AI아카데미 (SSAFY 13기)",
+      period: "2025.01 - 2025.12",
+      // description: "Next.js와 React를 활용한 대규모 프로젝트 개발 및 팀 리딩",
     },
     {
-      company: "Startup B",
-      role: "Full Stack Developer",
-      period: "2020.06 - 2022.02",
-      description: "웹 서비스 설계부터 배포까지 전체 개발 프로세스 담당",
+      company: "웹 애플리케이션 개발 교육",
+      role: "한국소프트웨어기술진흥협회",
+      period: "2024.02 - 2024.07",
+      // description: "웹 서비스 설계부터 배포까지 전체 개발 프로세스 담당",
     },
   ]
 
@@ -127,9 +127,11 @@ export function ExperienceSection() {
                     className={`p-4 lg:p-5 rounded-lg bg-muted/30 backdrop-blur-sm transition-all duration-1000 hover:bg-muted/50 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}
                     style={{ transitionDelay: `${0.5 + i * 0.1}s` }}
                   >
-                    <h3 className="text-base lg:text-lg font-semibold mb-1">{award.name}</h3>
-                    <p className="text-sm md:text-base text-muted-foreground">{award.organization}</p>
-                    <p className="text-xs lg:text-sm text-muted-foreground">{award.year}</p>
+                  <div className="flex justify-between items-center mb-1">
+                    <h3 className="text-base lg:text-lg font-semibold">{award.name}</h3>
+                    <span className="text-sm md:text-base text-muted-foreground">{award.organization}</span>
+                  </div>
+                  <p className="text-xs lg:text-sm text-muted-foreground">{award.year}</p>
                   </div>
                 ))}
               </div>

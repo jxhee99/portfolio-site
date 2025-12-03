@@ -1,5 +1,5 @@
 // app/api/send/route.ts
-import { Resend } from "resend"
+import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
 
 const resend = new Resend(process.env.RESEND_API_KEY)

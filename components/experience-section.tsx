@@ -41,9 +41,9 @@ export function ExperienceSection() {
     { type: "certification", name: "SQLD", year: "2024.06" },
     { type: "certification", name: "리눅스마스터 2급", year: "2023.03" },
     { type: "certification", name: "컴퓨터활용능력 1급", year: "2022.02" },
-    { type: "award", name: "SSAFY 자율 프로젝트 우수상 (3등)", organization: "APILog", year: "2024.11" },
-    { type: "award", name: "SSAFY 특화 프로젝트 우수상 (2등)", organization: "See you letter", year: "2024.10" },
-    { type: "award", name: "SSAFY 공통 프로젝트 우수상 (3등)", organization: "예매했냥", year: "2024.08" },
+    { type: "award", name: "SSAFY 자율 프로젝트 우수상", organization: "APILog", year: "2024.11" },
+    { type: "award", name: "SSAFY 특화 프로젝트 우수상", organization: "See you letter", year: "2024.10" },
+    { type: "award", name: "SSAFY 공통 프로젝트 우수상", organization: "예매했냥", year: "2024.08" },
   ]
 
   const certifications = achievements.filter((item) => item.type === "certification")

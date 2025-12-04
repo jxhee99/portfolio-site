@@ -86,7 +86,7 @@ export function AboutSection() {
               style={{ transitionDelay: "0.5s" }}
             >
               <p className="text-lg md:text-xl lg:text-2xl text-foreground leading-relaxed">
-                어디에 배치되든 <span className="font-bold">팀이 필요한 역할을 찾아 바로 기여</span>하는 개발자가 되겠습니다.
+                어디에 배치되든 <span className="font-bold">팀이 필요한 역할을 빠르게 찾아 즉시 기여</span>하는 개발자가 되겠습니다.
               </p>
             </div>
           </div>

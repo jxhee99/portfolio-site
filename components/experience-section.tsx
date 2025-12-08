@@ -41,9 +41,10 @@ export function ExperienceSection() {
     { type: "certification", name: "SQLD", year: "2024.06" },
     { type: "certification", name: "리눅스마스터 2급", year: "2023.03" },
     { type: "certification", name: "컴퓨터활용능력 1급", year: "2022.02" },
-    { type: "award", name: "SSAFY 자율 프로젝트 우수상", organization: "APILog", year: "2024.11" },
-    { type: "award", name: "SSAFY 특화 프로젝트 우수상", organization: "See you letter", year: "2024.10" },
-    { type: "award", name: "SSAFY 공통 프로젝트 우수상", organization: "예매했냥", year: "2024.08" },
+// organization → organizer(주관) + project(프로젝트명) 분리
+    { type: "award", name: "SSAFY 자율 프로젝트 우수상", organizer: "삼성전자", project: "APILog", year: "2024.11" },
+    { type: "award", name: "SSAFY 특화 프로젝트 우수상", organizer: "삼성전자", project: "See you letter", year: "2024.10" },
+    { type: "award", name: "SSAFY 공통 프로젝트 우수상", organizer: "삼성전자", project: "예매했냥", year: "2024.08" },
   ]
 
   const certifications = achievements.filter((item) => item.type === "certification")
@@ -127,11 +128,16 @@ export function ExperienceSection() {
                     className={`p-4 lg:p-5 rounded-lg bg-muted/30 backdrop-blur-sm transition-all duration-1000 hover:bg-muted/50 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}
                     style={{ transitionDelay: `${0.5 + i * 0.1}s` }}
                   >
-                  <div className="flex justify-between items-center mb-1">
-                    <h3 className="text-base lg:text-lg font-semibold">{award.name}</h3>
-                    <span className="text-sm md:text-base text-muted-foreground">{award.organization}</span>
-                  </div>
-                  <p className="text-xs lg:text-sm text-muted-foreground">{award.year}</p>
+                    <div className="flex justify-between items-start">
+                      {/* 왼쪽: 수상명 → 주관 → 날짜 */}
+                      <div>
+                        <h3 className="text-base lg:text-lg font-semibold">{award.name}</h3>
+                        <p className="text-sm lg:text-base text-muted-foreground">{award.organizer}</p>
+                        <p className="text-xs lg:text-sm text-muted-foreground">{award.year}</p>
+                      </div>
+                      {/* 오른쪽: 프로젝트명 */}
+                      <span className="text-sm md:text-base text-muted-foreground font-medium">{award.project}</span>
+                    </div>
                   </div>
                 ))}
               </div>

@@ -197,9 +197,9 @@ const projectsData: ProjectDetail[] = [
     ],
     learned: {
       drawback:
-        "내장 LLM을 고집하며 JSON 스키마를 맞추려다 보니 파이프라인 안정화에 과도한 시간이 들었고, 모델 한계 때문에 리포트 품질이 요동쳤습니다.",
+        "",
       insight:
-        "Next.js SSR/SSG를 프로젝트 전반에 적용하면서 배포 전략을 명확히 잡았고, 결제·웹훅·이미지 최적화 경험 덕분에 보안과 성능 최적화가 사용자 경험을 좌우한다는 사실을 체감했습니다.",
+        ".",
     },
     techStack: [
       { name: "Python", description: "React 프레임워크" },
@@ -301,9 +301,9 @@ const projectsData: ProjectDetail[] = [
     outcomes: ["**SSAFY 자율 프로젝트 우수상 수상** (2025.10)", "편지 생성 API 응답 속도 66% 개선 (44초 → 15초)", "음성 복제 대기 시간 99% 단축 (30분~1시간 → 15초)", "배포 시간 80% 단축 (15분 → 3분)"],
     learned: {
       drawback:
-        "음성·텍스트 데이터를 단일 모델에 몰아넣어 편지 품질이 밋밋했고 응답 속도도 느렸습니다. 또한 음성 복제를 GPU 학습으로 접근해 비용과 시간이 크게 소모됐습니다.",
+        "",
       insight:
-        "LLM 역할을 분석/질문/편지 생성으로 분리하고 STT·TTS·Zero-shot TTS 파이프라인을 구성해 개인화 품질을 끌어올리는 법을 익혔습니다.",
+        "",
     },
     techStack: [
       { name: "Spring Boot", description: "프레임워크" },
@@ -404,9 +404,9 @@ const projectsData: ProjectDetail[] = [
     ],
     learned: {
       drawback:
-        "이미지 최적화 전략을 초기에 설계하지 않아 외부 URL 지연과 대용량 리소스 문제로 사용자 대기 시간을 길게 만들었습니다.",
+        "",
       insight:
-        "JWT 인증, MinIO, Redis, FCM을 분리 아키텍처로 엮으면서 인증·미디어·알림 책임을 명확히 나눠야 확장성과 안정성을 확보할 수 있다는 점을 깨달았습니다.",
+        "",
     },
     techStack: [
       { name: "Spring Boot", description: "UI 프레임워크" },

@@ -250,7 +250,7 @@ const projectsData: ProjectDetail[] = [
     teamStructure: [
       { area: "Frontend", members: 1, tasks: "Kotlin 기반 UI 설계, 워치 연동" },
       { area: "Backend", members: 3, tasks: "DB 설계, API 개발, 블록체인 개발" },
-      { area: "AI", members: 2, tasks: "음성 복제, 회고 생성(STT,TTS), 편지 생성" },
+      { area: "AI", members: 2, tasks: "음성 복제, 회고 생성(STT&TTS), 편지 생성" },
     ],
     implementation: [
       {
@@ -287,7 +287,7 @@ const projectsData: ProjectDetail[] = [
     challengesAndSolutions: [
       {
         title: "1. 편지 생성 품질 저하 및 응답 속도 문제",
-        problem: "모든 회고고 데이터를 LLM에 주입 → 기계적인 ‘일간 회고 총정리’ 수준의 편지 생성. 응답시간 44초 소요",
+        problem: "모든 회고 데이터를 LLM에 주입 → 기계적인 ‘일간 회고 총정리’ 수준의 편지 생성. 응답시간 44초 소요",
         solution: "프롬프트 엔지니어링으로 LLM 역할 재정의(”진심이 담긴 편지를 작성하는 전문가”), 전체 회고 중 핵심 에피소드만 선택하여 편지 소재로 사용하고 나머지는 맥락 파악용으로 활용하도록 명시",
         result: "**API 응답 시간 44초 → 15초(66% 개선)**, 에피소드 나열식 → 핵심 감정에 집중한 진정성 있는 편지로 품질 향상",
       },
@@ -386,7 +386,7 @@ const projectsData: ProjectDetail[] = [
       {
         title: "1. JPA Fetch Join 페이지네이션 Count 쿼리 중복 계산 문제",
         problem: "선호 공연 목록 조회 시 실제 10개 데이터가 40개(4페이지)로 잘못 계산",
-        analysis:"1:N 관계 컬렉션을 LEFT JOIN FETCH하면 부모 엔티티가 자식 수만큼 중복 조회 → **JPA 자동 Count 쿼리가 중복 행을 모두 합산**",
+        analysis:"1:N 관계 컬렉션을 LEFT JOIN FETCH하면 부모 엔티티가 자식 수만큼 중복 조회 → JPA 자동 Count 쿼리가 중복 행을 모두 합산",
         solution: "데이터 조회와 개수 계산 로직 분리, 공연 ID만 카운팅하는 별도 쿼리 작성",
         result: "데이터 로딩 시 **Fetch Join은 유지하면서 N+1 문제 해결**하고 페이지네이션 정합성 확보",
       },

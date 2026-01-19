@@ -250,7 +250,7 @@ const projectsData: ProjectDetail[] = [
     teamStructure: [
       { area: "Frontend", members: 1, tasks: "Kotlin 기반 UI 설계, 워치 연동" },
       { area: "Backend", members: 3, tasks: "DB 설계, API 개발, 블록체인 개발" },
-      { area: "AI", members: 2, tasks: "음성 복제, 회고 생성(STT/TTS), 편지 생성" },
+      { area: "AI", members: 2, tasks: "음성 복제, 회고 생성(STT,TTS), 편지 생성" },
     ],
     implementation: [
       {
@@ -293,7 +293,7 @@ const projectsData: ProjectDetail[] = [
       },
       {
         title: "2. 음성 복제 품질 및 비용 문제",
-        problem: "**GPU 학습 방식**은 사용자마다 모델 학습 필요 → **서비스 비용 과다**, **학습 시간 30~1시간 소요**, **유사도 기대 미달**",
+        problem: "**GPU 학습 방식**은 사용자마다 모델 학습 필요 → **서비스 비용 지속적을 발생**, **학습 시간 30~1시간 소요**, **유사도 기대 미달**",
         solution: "**Zero-Shot TTS 방식으로 전환**, 여러 모델 테스트 후 한국어 억양과 톤이 가장 자연스러운 CosyVoice2 선택",
         result: "**대기 시간 30분 ~ 1시간 → 15초로 단축**하고 10초~30초 샘플만으로 자연스러운 목소리 구현 → 즉각적인 서비스 제공 ",
       },

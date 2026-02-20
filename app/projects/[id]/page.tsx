@@ -180,11 +180,11 @@ const projectsData: ProjectDetail[] = [
       {
         title: "2. AI 리포트 조회 타임아웃 및 CPU 과부하",
         problem:
-          "위젯별 **개별 HTTP 요청 7회** → 로그 증가에 비례해 반복 스캔 부하 급증 → **CPU 과부하·타임아웃 초과**. LLM이 수치 직접 생성 → **hallucination 발생**, 실패 시 **하드코딩 더미 데이터 반환**",
+          "위젯별 **개별 HTTP 요청 7회** → 로그 증가에 비례해 반복 스캔 부하 급증 → **CPU 과부하·타임아웃 초과**. LLM이 수치 직접 생성 → **hallucination 발생**",
         analysis:
           "요청마다 독립 커넥션 + 전체 스캔이 부하의 근본 원인. LLM에 수치 계산을 위임하는 구조가 **데이터 신뢰성 문제와 직결**",
         solution:
-          "**단일 DB 커넥션으로 SQL 3개** 직접 실행으로 교체. `health_score` 5축·`error_analysis` 등 **모든 수치를 서버에서 직접 계산** 후 LLM에 전달 → LLM은 해석만 수행. 더미 fallback 삭제 → **`mode: \"error\"` + 실패 사유 명시 반환**",
+          "**단일 DB 커넥션으로 SQL 3개** 직접 실행으로 교체. **모든 수치를 서버에서 직접 계산** 후 LLM에 전달 → LLM은 해석만 수행",
         result:
           "**타임아웃·CPU 과부하 해소**, **hallucination 제거로 AI 리포트 신뢰성 확보**",
       },
@@ -951,14 +951,20 @@ export default function ProjectDetailPage() {
                       <div className="inline-block px-4 py-1.5 rounded-md bg-red-100 text-red-700 text-sm font-semibold">
                         Problem
                       </div>
-                      <p className="text-base leading-relaxed text-gray-700 ml-2" style={{ lineHeight: "1.9" }}>
-                        {item.problem.split(/(\*\*.*?\*\*)/g).map((part, idx) => {
-                          if (part.startsWith('**') && part.endsWith('**')) {
-                            return <strong key={idx}>{part.slice(2, -2)}</strong>
-                          }
-                          return <span key={idx}>{part}</span>
-                        })}
-                      </p>
+                      <div className="text-base leading-relaxed text-gray-700 ml-2" style={{ lineHeight: "1.9" }}>
+                        {item.problem
+                          .split(/(?<=\.)\s+/) // 마침표 뒤 공백 기준으로 분리
+                          .map((sentence, idx) => (
+                            <p key={idx}>
+                              {sentence.split(/(\*\*.*?\*\*)/g).map((part, partIdx) => {
+                                if (part.startsWith('**') && part.endsWith('**')) {
+                                  return <strong key={partIdx}>{part.slice(2, -2)}</strong>
+                                }
+                                return <span key={partIdx}>{part}</span>
+                              })}
+                            </p>
+                          ))}
+                      </div>
                     </div>
                   )}
 
@@ -987,7 +993,14 @@ export default function ProjectDetailPage() {
                         {item.analysis
                           .split(/(?<=\.)\s+/) // 마침표 뒤 공백 기준으로 분리
                           .map((sentence, idx) => (
-                            <p key={idx}>{sentence}</p>
+                            <p key={idx}>
+                              {sentence.split(/(\*\*.*?\*\*)/g).map((part, partIdx) => {
+                                if (part.startsWith('**') && part.endsWith('**')) {
+                                  return <strong key={partIdx}>{part.slice(2, -2)}</strong>
+                                }
+                                return <span key={partIdx}>{part}</span>
+                              })}
+                            </p>
                           ))}
                       </div>
                     </div>
